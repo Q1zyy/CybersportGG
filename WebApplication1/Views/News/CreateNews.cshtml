@@ -1,0 +1,18 @@
+﻿
+@model WebApplication1.ViewModels.NewsViewModel
+<a asp-controller="Account" asp-action="Logout">Logout</a>
+<a asp-controller="Home" asp-action="Index">Index</a>
+<h1>Hello</h1>
+
+
+<form asp-controller="News" asp-action="CreateNews" method="post">
+    <div>
+        <label for="title">Заголовок:</label>
+        <input asp-for="Title"/>
+    </div>
+    <div>
+        <label for="content">Содержание:</label>
+        <textarea asp-for="Content"></textarea>
+    </div>
+    <button type="submit">Создать новость</button>
+</form>

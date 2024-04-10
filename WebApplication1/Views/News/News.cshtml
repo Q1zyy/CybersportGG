@@ -1,0 +1,19 @@
+﻿@using System.Security.Claims;
+<a asp-controller="Home" asp-action="Index">Home</a>
+<h1>News</h1>
+
+@foreach (var news in ViewBag.NewsList)
+{
+	<div>
+		<h2> <a href="/news/@news.Id">@news.Title</a> </h2>
+		@if (news.Author == User.Identity.Name || User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin")
+		{
+			<a asp-controller="News" asp-action="Delete" asp-route-id="@news.Id">delete</a>
+		}
+		@if (news.Author == User.Identity.Name)
+		{
+			<a asp-controller="News" asp-action="Edit" asp-route-id="@news.Id">edit</a>
+		}
+	</div>
+}
+

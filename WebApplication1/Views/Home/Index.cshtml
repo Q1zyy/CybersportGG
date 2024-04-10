@@ -1,0 +1,24 @@
+﻿<a asp-controller="News" asp-action="News">News</a>
+@if (!ViewBag.IsAuth)
+{
+	<a asp-controller="Account" asp-action="Register">Register</a>
+	<a asp-controller="Account" asp-action="Login">Login</a>
+}
+<a asp-controller="Home" asp-action="Index">Home</a>
+@if (ViewBag.Role == "admin" || ViewBag.Role == "writer")
+{
+	<a asp-controller="Admin" asp-action="Index">Admin</a>
+}
+@if (ViewBag.IsAuth)
+{
+	<a asp-controller="Account" asp-action="Logout">Logout</a>
+}
+<p>
+	IsAuth :@ViewBag.IsAuth
+</p>
+<p>
+	Name :@ViewBag.Name
+</p>
+<p>
+	Role :@ViewBag.Role
+</p>
