@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<INewsService, NewsService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication("Cookie")
     .AddCookie("Cookie", options => options.LoginPath = "/account/login");

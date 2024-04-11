@@ -13,11 +13,12 @@ namespace WebApplication1.Controllers
 {
 	public class NewsController : Controller
 	{
-
+		private readonly ICommentService _commentService;
 		private readonly INewsService _newsService;
 
-		public NewsController(INewsService newsService)
+		public NewsController(INewsService newsService, ICommentService commentService)
 		{
+			_commentService = commentService;
 			_newsService = newsService;
 		}
 
@@ -36,6 +37,10 @@ namespace WebApplication1.Controllers
 		{
 			News curNews = _newsService.GetnSingleNews(id);
 			ViewBag.CurrentNews = curNews;
+
+			ViewBag.CurrentComments = _commentService.GetComments(id);
+			ViewBag.CurrentId = id;
+
 			return View("SingleNews");
 		}
 
@@ -93,5 +98,19 @@ namespace WebApplication1.Controllers
 			});
 			return Redirect("/news");
 		}
+
+		[HttpPost]
+		[Authorize]
+		public IActionResult AddComment(int id, CommentViewModel model)
+		{
+			_commentService.AddComment(new Comment()
+			{
+				Content = model.Content,
+				Author = User.Identity.Name,
+				NewsId = id
+			});
+			return Redirect("/news/"+id);
+		}
+
 	}
 }
