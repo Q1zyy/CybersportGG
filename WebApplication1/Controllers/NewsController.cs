@@ -71,12 +71,26 @@ namespace WebApplication1.Controllers
 			return Redirect("/news");
 		}
 		
-		[HttpPost]
+		[HttpGet]
 		[Authorize(Policy = "writer")]
 		public IActionResult Edit(int id)
 		{
-			string path = @"D:\Forum\WebApplication1\WebApplication1\CollectionNews";
-			System.IO.File.Delete(path + @"\news" + id + ".txt");
+			var news = _newsService.GetnSingleNews(id);
+			ViewBag.NewsTitle = news.Title;
+			ViewBag.NewsContent = news.Content;
+			return View();
+		}
+		
+		[HttpPost]
+		[Authorize(Policy = "writer")]
+		public IActionResult Edit(int id, NewsViewModel model)
+		{
+			_newsService.UpdateNews(id, new News()
+			{
+				Author = User.Identity.Name,
+				Content = model.Content,
+				Title = model.Title
+			});
 			return Redirect("/news");
 		}
 	}

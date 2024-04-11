@@ -1,0 +1,17 @@
+﻿
+@model WebApplication1.ViewModels.NewsViewModel
+<a asp-controller="Account" asp-action="Logout">Logout</a>
+<a asp-controller="Home" asp-action="Index">Index</a>
+<h1>Hello</h1>
+
+<form asp-controller="News" asp-action="Edit" asp-route-id="@Context.Request.Query["id"]" method="post">
+    <div>
+        <label for="title">Заголовок:</label>
+        <input asp-for="Title" value="@ViewBag.NewsTitle" /> 
+    </div>
+    <div>
+        <label for="content">Содержание:</label>
+        <textarea name="Content">@ViewBag.NewsContent</textarea>
+    </div>
+    <button type="submit">Отредачить новость</button>
+</form>

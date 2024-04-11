@@ -7,6 +7,10 @@
 <a asp-controller="Home" asp-action="Index">Home</a>
 @if (ViewBag.Role == "admin" || ViewBag.Role == "writer")
 {
+	<a asp-controller="Writer" asp-action="Index">Writer</a>
+}
+@if (ViewBag.Role == "admin")
+{
 	<a asp-controller="Admin" asp-action="Index">Admin</a>
 }
 @if (ViewBag.IsAuth)

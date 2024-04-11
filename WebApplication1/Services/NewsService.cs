@@ -92,9 +92,15 @@ namespace WebApplication1.Services
 			return cur;
 		}
 
-		public void UpdateNews(News newNews)
+		public void UpdateNews(int id, News newNews)
 		{
-			throw new NotImplementedException();
+			string filepath = path + @"\news" + (id) + ".txt";
+			using (StreamWriter writer = new StreamWriter(filepath))
+			{
+				writer.WriteLine(newNews.Title);
+				writer.WriteLine(newNews.Author);
+				writer.Write(newNews.Content);
+			}
 		}
 	}
 }

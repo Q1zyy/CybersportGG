@@ -67,5 +67,50 @@ namespace WebApplication1.Services
 			}
 			return result;
 		}
+
+
+		public IEnumerable<User> GetUsers()
+		{
+			List<User> users = new List<User>();
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string text = "";
+                while (text != null)
+                {
+                    text = reader.ReadLine();
+                    if (text == null) break;
+                    var a = text.Split(' ');
+					User result = new User();
+                    result.Username = a[0];
+                    result.Password = a[1];
+                    result.Role = a[2];
+					users.Add(result);
+				}
+            }
+			return users;
+        }
+
+		public void ChangeRole(string username, string role)
+		{
+			IEnumerable<User> users = GetUsers();
+			foreach (var user in users)
+			{
+				if (username.Equals(user.Username))
+				{
+					user.Role = role;
+				}
+			}
+
+			using (StreamWriter writer = new StreamWriter(path))
+			{
+				foreach (var user in users)
+				{
+					writer.WriteLine(user.Username + " " + user.Password + " " + user.Role);
+				}
+			}
+
+		}
 	}
+
+
 }

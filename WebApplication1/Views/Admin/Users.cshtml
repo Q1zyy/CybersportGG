@@ -1,0 +1,19 @@
+﻿<a asp-controller="Account" asp-action="Logout">Logout</a>
+<a asp-controller="Home" asp-action="Index">Index</a>
+
+@foreach (var user in ViewBag.Users)
+{
+	<a>@user.Username</a>
+	<a>@user.Role</a>
+	@if (user.Role != "admin")
+	{
+		if (user.Role == "writer")
+		{
+			<a asp-controller="Admin" asp-action="ChangeUserRole" asp-route-username="@user.Username" asp-route-newrole="user">Give User</a>
+		} else
+		{
+			<a asp-controller="Admin" asp-action="ChangeUserRole" asp-route-username="@user.Username" asp-route-newrole="writer">Give Writer</a>
+		}
+	}	
+	<br />
+}

@@ -11,7 +11,7 @@ namespace WebApplication1.Services
 
 		public void CreateNews(News newsViewModel);
 
-		public void UpdateNews(News newNews);
+		public void UpdateNews(int id, News newNews);
 
 		public void DeleteNews(int id);
 
