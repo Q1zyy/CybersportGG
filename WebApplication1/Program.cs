@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<INewsService, NewsService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication("Cookie")
     .AddCookie("Cookie", options => options.LoginPath = "/account/login");

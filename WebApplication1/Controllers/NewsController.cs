@@ -7,47 +7,25 @@ using static System.Net.Mime.MediaTypeNames;
 using WebApplication1.Models;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
 	public class NewsController : Controller
 	{
+
+		private readonly INewsService _newsService;
+
+		public NewsController(INewsService newsService)
+		{
+			_newsService = newsService;
+		}
+
 		[Route("/news")]
 		[HttpGet]
 		public IActionResult News()
 		{
-			string path = @"D:\Forum\WebApplication1\WebApplication1\CollectionNews";
-			var newsLenPath = @"D:\Forum\WebApplication1\WebApplication1\NewsCount.txt";
-			int len = 0;
-			using (StreamReader reader = new StreamReader(newsLenPath))
-			{
-				len = int.Parse(reader.ReadLine());
-			}
-
-			var lst = new List<News>();
-			for (int i = 0; i < len; i++)
-			{
-				string pathfile = path + @"\news" + (i + 1) + ".txt";
-				try
-				{
-
-					using (StreamReader reader = new StreamReader(pathfile))
-					{
-						string title = reader.ReadLine();
-						string author = reader.ReadLine();
-						string content = reader.ReadToEnd();
-						News cur = new News();
-						cur.Title = title;
-						cur.Content = content;
-						cur.Author = author;
-						cur.Id = i + 1;
-						lst.Add(cur);
-					}
-				} catch
-				{
-
-				}
-			}
+			var lst = _newsService.GetNews();
 			ViewBag.NewsList = lst;
 			return View();
 		}
@@ -56,21 +34,8 @@ namespace WebApplication1.Controllers
 		[HttpGet("/news/{id:int}")]
 		public IActionResult News(int id)
 		{
-			string path = @"D:\Forum\WebApplication1\WebApplication1\CollectionNews";
-			var len = new DirectoryInfo(path).GetFiles().Length;
-			string pathfile = path + @"\news" + (id) + ".txt";
-			using (StreamReader reader = new StreamReader(pathfile))
-			{
-				string title = reader.ReadLine();
-				string author = reader.ReadLine();
-				string content = reader.ReadToEnd();
-				News cur = new News();
-				cur.Title = title;
-				cur.Content = content;
-				cur.Author = author;
-				cur.Id = id;
-				ViewBag.CurrentNews = cur;
-			}
+			News curNews = _newsService.GetnSingleNews(id);
+			ViewBag.CurrentNews = curNews;
 			return View("SingleNews");
 		}
 
@@ -85,41 +50,28 @@ namespace WebApplication1.Controllers
 		[Authorize(Policy = "writer")]
 		public IActionResult CreateNews(NewsViewModel model)
 		{
-			string path = @"D:\Forum\WebApplication1\WebApplication1\CollectionNews";
-			var newsLenPath = @"D:\Forum\WebApplication1\WebApplication1\NewsCount.txt";
-			int len = 0;
-			using (StreamReader reader = new StreamReader(newsLenPath))
-			{
-				len = int.Parse(reader.ReadLine());
-			}
-			string filepath = path + @"\news" + (len + 1) + ".txt";
-			using (FileStream fs = System.IO.File.Create(filepath)) {}
-			using (StreamWriter writer = new StreamWriter(filepath))
-			{
-				writer.WriteLine(model.Title);
-				writer.WriteLine(User.Identity.Name);
-				writer.Write(model.Content);
-			}
 
-			using (StreamWriter writer = new StreamWriter(newsLenPath))
+			_newsService.CreateNews(new News()
 			{
-				writer.WriteLine((len + 1).ToString());
-			}
+				Author = User.Identity.Name,
+				Content = model.Content,
+				Title = model.Title
+
+			});
 
 			return Redirect("/news");
 		}
 
 
-		[HttpDelete]
+		[HttpGet]
 		[Authorize(Policy = "writer")]
 		public IActionResult Delete(int id)
 		{
-			string path = @"D:\Forum\WebApplication1\WebApplication1\CollectionNews";
-			System.IO.File.Delete(path + @"\news" + id + ".txt");
+			_newsService.DeleteNews(id);
 			return Redirect("/news");
 		}
-
-		[HttpPatch]
+		
+		[HttpPost]
 		[Authorize(Policy = "writer")]
 		public IActionResult Edit(int id)
 		{

@@ -3,12 +3,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
+using WebApplication1.Models;
+using WebApplication1.Services;
 using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
     public class AccountController : Controller
     {
+
+        private readonly IUserService _userSevice;
+        public AccountController(IUserService userService) {
+            _userSevice = userService;
+        }
 
         [HttpGet]
         public IActionResult Register()
@@ -31,44 +38,23 @@ namespace WebApplication1.Controllers
                 return View(model);
             }
 
-            string path = "D:\\Forum\\WebApplication1\\WebApplication1\\users.txt";
+            User user = _userSevice.GetUser(model.Username);
 
-            bool skip = false;
-            string currentRole = "user";
-
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string text = "";
-                while (text != null)
-                {
-                    text = reader.ReadLine();
-                    if (text == null) break;
-                    var a = text.Split(' ');
-                    if (a[0] == model.Username && a[1] == model.Password)
-                    {
-                        skip = true;
-                        currentRole = a[2];
-                        break;
-                    }
-                }
-            }
-
-            if (!skip)
+            if (user == null)
             {
                 return View(model);
-
             }
 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, model.Username),
-                new Claim(ClaimTypes.Role, currentRole)
+                new Claim(ClaimTypes.Role, user.Role)
             };
             var claimIdentity = new ClaimsIdentity(claims, "Cookie");
             var claimPrincipal = new ClaimsPrincipal(claimIdentity);
             await HttpContext.SignInAsync("Cookie", claimPrincipal);
 
-            ViewBag.Role = currentRole;
+            ViewBag.Role = user.Role;
             return Redirect("/Home/Index");
         }
 
@@ -80,34 +66,14 @@ namespace WebApplication1.Controllers
                 return View(model);
             }
 
-            string path = "D:\\Forum\\WebApplication1\\WebApplication1\\users.txt";
-
-            bool skip = false;
-
-            using (StreamReader reader = new StreamReader(path))
+            if (!_userSevice.HaveUser(model.Username))
             {
-                string text = "";
-                while (text !=  null)
+                _userSevice.AddUser(new Models.User()
                 {
-                    text = reader.ReadLine();
-                    if (text == null) break;
-                    var a = text.Split(' ');
-                    if (a[0] == model.Username)
-                    {
-                        skip = true;
-                    }
-                }
-                Console.WriteLine(text);
-            }
-
-            if (!skip)
-            {
-                using (StreamWriter reader = new StreamWriter(path, true))
-                {
-
-                    reader.WriteLine(model.Username + " " + model.Password + " user");
-                }
-
+                    Username = model.Username,
+                    Password = model.Password,
+                    Role = "user"
+                });
                 return RedirectToAction("Login", "Account");
 
             }
