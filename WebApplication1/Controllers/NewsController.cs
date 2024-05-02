@@ -24,21 +24,21 @@ namespace WebApplication1.Controllers
 
 		[Route("/news")]
 		[HttpGet]
-		public IActionResult News()
+		public async Task<IActionResult> News()
 		{
-			var lst = _newsService.GetNews();
+			var lst = await _newsService.GetNews();
 			ViewBag.NewsList = lst;
 			return View();
 		}
 
 
 		[HttpGet("/news/{id:int}")]
-		public IActionResult News(int id)
+		public async Task<IActionResult> News(int id)
 		{
-			News curNews = _newsService.GetnSingleNews(id);
+			News curNews = await _newsService.GetSingleNews(id);
 			ViewBag.CurrentNews = curNews;
 
-			ViewBag.CurrentComments = _commentService.GetComments(id);
+			ViewBag.CurrentComments = await _commentService.GetComments(id);
 			ViewBag.CurrentId = id;
 
 			return View("SingleNews");
@@ -53,10 +53,10 @@ namespace WebApplication1.Controllers
 
 		[HttpPost]
 		[Authorize(Policy = "writer")]
-		public IActionResult CreateNews(NewsViewModel model)
+		public async Task<IActionResult> CreateNews(NewsViewModel model)
 		{
 
-			_newsService.CreateNews(new News()
+			await _newsService.CreateNews(new News()
 			{
 				Author = User.Identity.Name,
 				Content = model.Content,
@@ -70,17 +70,17 @@ namespace WebApplication1.Controllers
 
 		[HttpGet]
 		[Authorize(Policy = "writer")]
-		public IActionResult Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
-			_newsService.DeleteNews(id);
+			await _newsService.DeleteNews(id);
 			return Redirect("/news");
 		}
 		
 		[HttpGet]
 		[Authorize(Policy = "writer")]
-		public IActionResult Edit(int id)
+		public async Task<IActionResult> Edit(int id)
 		{
-			var news = _newsService.GetnSingleNews(id);
+			var news = await _newsService.GetSingleNews(id);
 			ViewBag.NewsTitle = news.Title;
 			ViewBag.NewsContent = news.Content;
 			return View();
@@ -88,9 +88,9 @@ namespace WebApplication1.Controllers
 		
 		[HttpPost]
 		[Authorize(Policy = "writer")]
-		public IActionResult Edit(int id, NewsViewModel model)
+		public async Task<IActionResult> Edit(int id, NewsViewModel model)
 		{
-			_newsService.UpdateNews(id, new News()
+			await _newsService.UpdateNews(id, new News()
 			{
 				Author = User.Identity.Name,
 				Content = model.Content,
@@ -101,9 +101,9 @@ namespace WebApplication1.Controllers
 
 		[HttpPost]
 		[Authorize]
-		public IActionResult AddComment(int id, CommentViewModel model)
+		public async Task<IActionResult> AddComment(int id, CommentViewModel model)
 		{
-			_commentService.AddComment(new Comment()
+			await _commentService.AddComment(new Comment()
 			{
 				Content = model.Content,
 				Author = User.Identity.Name,

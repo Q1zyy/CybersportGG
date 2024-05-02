@@ -5,9 +5,9 @@ namespace WebApplication1.Services
 {
 	public interface ICommentService
 	{
-		IEnumerable<Comment> GetComments(int id);
+		public Task<IEnumerable<Comment>> GetComments(int id);
 
-		void AddComment(Comment model);
+		public Task AddComment(Comment model);
 
 	}
 }

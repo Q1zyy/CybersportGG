@@ -5,15 +5,15 @@ namespace WebApplication1.Services
 {
 	public interface INewsService
 	{
-		public IEnumerable<News> GetNews();
+		public Task<IEnumerable<News>> GetNews();
 
-		public News GetnSingleNews(int id);
+		public Task<News> GetSingleNews(int id);
 
-		public void CreateNews(News newsViewModel);
+		public Task CreateNews(News newsViewModel);
 
-		public void UpdateNews(int id, News newNews);
+		public Task UpdateNews(int id, News newNews);
 
-		public void DeleteNews(int id);
+		public Task DeleteNews(int id);
 
 	}
 }
