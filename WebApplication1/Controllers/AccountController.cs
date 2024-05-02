@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
                 return View(model);
             }
 
-            User user = _userSevice.GetUser(model.Username);
+            User user = await _userSevice.GetUser(model.Username);
 
             if (user == null)
             {
@@ -59,16 +59,16 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(UserViewModel model)
+        public async Task<IActionResult> Register(UserViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            if (!_userSevice.HaveUser(model.Username))
+            if (!(await _userSevice.HaveUser(model.Username)))
             {
-                _userSevice.AddUser(new Models.User()
+                await _userSevice.AddUser(new Models.User()
                 {
                     Username = model.Username,
                     Password = model.Password,

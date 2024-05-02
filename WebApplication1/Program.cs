@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Configuration;
 using System.Security.Claims;
+using WebApplication1.Models;
 using WebApplication1.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<INewsService, NewsService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
@@ -32,6 +37,8 @@ var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+//app.MapGet("/", (ApplicationDbContext db) => db.Users.ToList());
 
 app.MapControllerRoute(
     name: "default",

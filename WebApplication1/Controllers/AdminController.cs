@@ -22,17 +22,17 @@ namespace WebApplication1.Controllers
 
 
         [HttpGet]
-        public ActionResult Users()
+        public async Task<ActionResult> Users()
         {
-            var lst = _userService.GetUsers();
+            var lst = await _userService.GetUsers();
             ViewBag.Users = lst;
             return View();
         }
 
         [HttpGet]
-        public ActionResult ChangeUserRole(string username, string newrole)
+        public async Task<ActionResult> ChangeUserRole(string username, string newrole)
         {
-            _userService.ChangeRole(username, newrole);
+            await _userService.ChangeRole(username, newrole);
             return Redirect("/admin/users");
         }
 

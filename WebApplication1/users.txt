@@ -1,6 +1,6 @@
 admin admin admin
-aboba 123 writer
-clown 228 writer
+aboba 123 user
+clown 228 user
 afasfs farferferfaefrea user
 user123 user123 writer
 ponchick qwerty user
@@ -11,3 +11,6 @@ Autistio zxcvbn user
 sadsfgngh adsfh user
 ewefgdhf ewareryju user
 zxcursed zxursed user
+123312 123312 writer
+test1 test1 user
+abrikos abrikos user
