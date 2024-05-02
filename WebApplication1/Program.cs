@@ -12,6 +12,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<INewsService, NewsService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<ITeamService, TeamService>();
+builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication("Cookie")
     .AddCookie("Cookie", options => options.LoginPath = "/account/login");

@@ -1,0 +1,15 @@
+﻿<a asp-controller="Home" asp-action="Index">Home</a>
+<br />
+@{
+	var a = ViewBag.CurrentPlayer;
+}
+<img src="data:image /png;base64,@(Convert.ToBase64String(a.Image))" />
+<p>
+	Nickname: @a.Nickname
+</p>
+<p>
+	Name: @a.Name
+</p>
+<p>
+	Age: @a.Age
+</p>

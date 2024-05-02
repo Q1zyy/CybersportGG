@@ -1,0 +1,13 @@
+﻿@model WebApplication1.ViewModels.TeamViewModel
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label for="title">Загрузите фото:</label>
+        <input type="file" asp-for="Image" />
+    </div>
+    <div>
+        <label for="title">Введите имя</label>
+        <input asp-for="Name" />
+    </div>
+    <button type="submit">Upload</button>
+</form>

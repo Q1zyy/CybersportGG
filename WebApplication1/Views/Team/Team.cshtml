@@ -1,0 +1,39 @@
+﻿<a asp-controller="Home" asp-action="Index">Home</a>
+<br />
+@{
+	var a = ViewBag.CurrentTeam;
+}
+<img src="data:image /png;base64,@(Convert.ToBase64String(a.Image))" />
+<p>
+	Nickname: @a.Name
+</p>
+
+@if (ViewBag.CurrentPlayers != null)
+{
+	foreach (var player in ViewBag.CurrentPlayers)
+	{
+		<img src="data:image /png;base64,@(Convert.ToBase64String(player.Image))" />
+		<p>@player.Nickname</p>
+		<p>@player.Name</p>
+		<p>@player.Age</p>
+	}
+}
+
+@if (ViewBag.Role == "admin")
+{
+	<form asp-controller="Team" asp-action="SearchPlayers" asp-route-id="@ViewBag.CurrentId" method="post">
+		<input name="searchString" type="text"/>
+		<button type="submit">Отправить</button>
+	</form>
+	var cur = ViewBag.Players;
+	if (ViewBag.Players != null)
+	{
+		@foreach (var player in ViewBag.Players)
+		{
+			<a>@player.Id @player.Name @player.Nickname</a>
+			<a asp-controller="Team" asp-action="AddPlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Add</a>
+			<br />
+		}
+	}
+
+}
