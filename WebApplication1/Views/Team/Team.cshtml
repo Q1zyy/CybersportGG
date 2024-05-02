@@ -32,6 +32,7 @@
 		{
 			<a>@player.Id @player.Name @player.Nickname</a>
 			<a asp-controller="Team" asp-action="AddPlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Add</a>
+			<a asp-controller="Team" asp-action="DeletePlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Add</a>
 			<br />
 		}
 	}

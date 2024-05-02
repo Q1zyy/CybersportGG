@@ -11,5 +11,7 @@ namespace WebApplication1.Services
 
 		public Task<IEnumerable<Player>> Search(string s);
 
+		public Task ChangePlayer(Player model);
+
 	}
 }

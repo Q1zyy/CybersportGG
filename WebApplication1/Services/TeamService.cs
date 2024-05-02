@@ -19,6 +19,13 @@ namespace WebApplication1.Services
 			team.PlayersID.Add(playerId);
 			await db.SaveChangesAsync();
 		}
+		
+		public async Task DeletePlayer(int id, int playerId)
+		{
+			var team = await GetTeam(id);
+			team.PlayersID.Remove(playerId);
+			await db.SaveChangesAsync();
+		}
 
 		public async Task CreateTeam(Team model)
 		{

@@ -10,6 +10,8 @@ namespace WebApplication1.Services
 
 		public Task AddPlayer(int id, int playerId);
 
+		public Task DeletePlayer(int id, int playerId);
+
 
 	}
 }

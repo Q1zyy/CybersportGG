@@ -95,7 +95,30 @@ namespace WebApplication1.Controllers
 		{
 			var player = await _playerService.GetPlayer(id);
 			var team = await _teamService.GetTeam(teamId);
+			await _playerService.ChangePlayer(new Player {
+				Id = id,
+				Nickname = player.Nickname,
+				Name = player.Name,
+				Age = player.Age,
+				TeamId = teamId
+			});
 			await _teamService.AddPlayer(teamId, id);
+			return Redirect(teamId.ToString());
+		}
+		
+		public async Task<IActionResult> DeletePlayer(int id, int teamId)
+		{
+			var player = await _playerService.GetPlayer(id);
+			var team = await _teamService.GetTeam(teamId);
+			await _teamService.DeletePlayer(teamId, id);
+			await _playerService.ChangePlayer(new Player
+			{
+				TeamId = 0,
+				Id = id,
+				Nickname = player.Nickname,
+				Name = player.Name,
+				Age = player.Age
+			});
 			return Redirect(teamId.ToString());
 		}
 

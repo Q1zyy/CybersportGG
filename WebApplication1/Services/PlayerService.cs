@@ -15,6 +15,16 @@ namespace WebApplication1.Services
 			db = context;
 		}
 
+		public async Task ChangePlayer(Player model)
+		{
+			var player = await GetPlayer(model.Id);
+			player.TeamId = model.TeamId;
+			player.Name = model.Name;
+			player.Nickname = model.Nickname;
+			player.Age = model.Age;
+			await db.SaveChangesAsync();
+		}
+
 		public async Task CreatePlayer(Player model)
 		{
 			await db.Players.AddAsync(model);
