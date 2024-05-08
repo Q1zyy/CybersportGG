@@ -49,5 +49,10 @@ namespace WebApplication1.Services
 			}
 			await db.SaveChangesAsync();
 		}
+
+		public async Task<IEnumerable<Team>> SearchTeams(string s)
+		{
+			return await db.Teams.Where(t => t.Name.Contains(s)).ToListAsync();
+		}
 	}
 }

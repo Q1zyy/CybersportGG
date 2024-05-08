@@ -1,0 +1,25 @@
+﻿@{
+	var e = ViewBag.CurrentEvent;
+	var teams = ViewBag.CurrentTeams;
+}
+<div>
+	<style>
+		img {
+			width: 300px;
+			height: 150px;
+		}
+	</style>
+	<img src="data:image /png;base64,@(Convert.ToBase64String(e.Image))" />
+	<br />
+	<a href="/event/@e.Id">@e.Name</a>
+	<br />
+	<a>@e.StartDate - @e.EndDate</a>
+</div>
+
+@foreach (var team in teams)
+{
+	<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+	<p>
+		Nickname: @team.Name
+	</p>
+}

@@ -15,5 +15,7 @@ namespace WebApplication1.Services
 
 		public Task EditTeam(int id, Team model);
 
+		public Task<IEnumerable<Team>> SearchTeams(string s);
+
 	}
 }

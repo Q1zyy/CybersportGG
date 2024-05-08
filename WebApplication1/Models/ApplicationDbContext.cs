@@ -13,6 +13,13 @@ namespace WebApplication1.Models
 		public DbSet<Player> Players { get; set; }
 
 		public DbSet<Team> Teams { get; set; }
+
+		public DbSet<Event> Events { get; set; }
+
+		public DbSet<Match> Matches { get; set; }
+
+		public DbSet<Result> Results { get; set; }
+
 		
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
