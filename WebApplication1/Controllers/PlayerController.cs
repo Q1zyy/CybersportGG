@@ -73,6 +73,7 @@ namespace WebApplication1.Controllers
 			await _playerService.ChangePlayer(new Player
 			{
 				Id = id,
+				TeamId = -1,
 				Nickname = model.Nickname,
 				Name = model.Name,
 				Age = model.Age,

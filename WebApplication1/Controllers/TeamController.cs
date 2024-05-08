@@ -63,7 +63,39 @@ namespace WebApplication1.Controllers
 			}
 			ViewBag.CurrentPlayers = list;
 			return View("Team");
-		}	
+		}
+
+		[HttpGet]
+		[Authorize(Policy = "admin")]
+		public async Task<IActionResult> Edit(int id)
+		{
+			ViewBag.CurrentTeam = await _teamService.GetTeam(id);
+			return View();
+		}
+		
+		[HttpPost]
+		[Authorize(Policy = "admin")]
+		public async Task<IActionResult> Edit(int id, TeamViewModel model)
+		{
+			byte[] bytes = null;
+			if (model.Image != null)
+			{
+				using (MemoryStream memoryStream = new MemoryStream())
+				{
+					await model.Image.CopyToAsync(memoryStream);
+					bytes = memoryStream.ToArray();
+				}
+			}
+
+			await _teamService.EditTeam(id, new Team
+			{
+				Name = model.Name,
+				Image = bytes
+			});
+
+			ViewBag.CurrentTeam = await _teamService.GetTeam(id);
+			return Redirect(id.ToString());
+		}
 		
 
 		[HttpPost]

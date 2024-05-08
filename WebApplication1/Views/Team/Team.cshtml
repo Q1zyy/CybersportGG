@@ -36,6 +36,7 @@
 
 @if (ViewBag.Role == "admin")
 {
+	<a asp-controller="Team" asp-action="Edit" asp-route-id="@a.Id">Edit</a>
 	<form asp-controller="Team" asp-action="SearchPlayers" asp-route-id="@ViewBag.CurrentId" method="post">
 		<input name="searchString" type="text"/>
 		<button type="submit">Отправить</button>

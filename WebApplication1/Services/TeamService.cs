@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
+using WebApplication1.ViewModels;
 
 namespace WebApplication1.Services
 {
@@ -36,6 +37,17 @@ namespace WebApplication1.Services
 		public async Task<Team> GetTeam(int id)
 		{
 			return await db.Teams.FirstOrDefaultAsync(t => t.Id == id);
+		}
+
+		public async Task EditTeam(int id, Team model)
+		{
+			var team = await GetTeam(id);
+			team.Name = model.Name;
+			if (model.Image != null)
+			{
+				team.Image = model.Image;
+			}
+			await db.SaveChangesAsync();
 		}
 	}
 }

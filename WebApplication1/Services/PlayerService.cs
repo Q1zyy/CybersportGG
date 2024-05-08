@@ -18,7 +18,10 @@ namespace WebApplication1.Services
 		public async Task ChangePlayer(Player model)
 		{
 			var player = await GetPlayer(model.Id);
-			player.TeamId = model.TeamId;
+			if (model.TeamId != -1)
+			{
+				player.TeamId = model.TeamId;
+			}
 			player.Name = model.Name;
 			player.Nickname = model.Nickname;
 			player.Age = model.Age;

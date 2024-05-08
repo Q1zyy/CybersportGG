@@ -1,4 +1,5 @@
 ﻿using WebApplication1.Models;
+using WebApplication1.ViewModels;
 
 namespace WebApplication1.Services
 {
@@ -12,6 +13,7 @@ namespace WebApplication1.Services
 
 		public Task DeletePlayer(int id, int playerId);
 
+		public Task EditTeam(int id, Team model);
 
 	}
 }
