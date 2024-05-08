@@ -13,3 +13,7 @@
 <p>
 	Age: @a.Age
 </p>
+@if (ViewBag.Role == "admin")
+{
+	<a asp-controller="Player" asp-action="Edit" asp-route-id="@a.Id" >Edit</a>
+}

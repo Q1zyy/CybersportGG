@@ -10,13 +10,28 @@
 
 @if (ViewBag.CurrentPlayers != null)
 {
-	foreach (var player in ViewBag.CurrentPlayers)
-	{
-		<img src="data:image /png;base64,@(Convert.ToBase64String(player.Image))" />
-		<p>@player.Nickname</p>
-		<p>@player.Name</p>
-		<p>@player.Age</p>
-	}
+	<ul>
+		<style>
+			li {
+				display: inline-block;
+			}
+			img {
+				width: 150px;
+				height: 150px;
+			}
+		</style>
+		@foreach (var player in ViewBag.CurrentPlayers)
+		{
+			<li>
+				<a href="@Url.Action("Player", "Player", new { id = player.Id })">
+					<img src="data:image /png;base64,@(Convert.ToBase64String(player.Image))" />
+				</a>
+				<p>@player.Nickname</p>
+				<p>@player.Name</p>
+				<p>@player.Age</p>
+			</li>
+		}
+	</ul>
 }
 
 @if (ViewBag.Role == "admin")
@@ -32,7 +47,7 @@
 		{
 			<a>@player.Id @player.Name @player.Nickname</a>
 			<a asp-controller="Team" asp-action="AddPlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Add</a>
-			<a asp-controller="Team" asp-action="DeletePlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Add</a>
+			<a asp-controller="Team" asp-action="DeletePlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Delete</a>
 			<br />
 		}
 	}

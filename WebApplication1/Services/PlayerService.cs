@@ -22,6 +22,10 @@ namespace WebApplication1.Services
 			player.Name = model.Name;
 			player.Nickname = model.Nickname;
 			player.Age = model.Age;
+			if (model.Image != null)
+			{
+				player.Image = model.Image;
+			}
 			await db.SaveChangesAsync();
 		}
 
