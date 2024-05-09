@@ -54,5 +54,10 @@ namespace WebApplication1.Services
 		{
 			return await db.Teams.Where(t => t.Name.Contains(s)).ToListAsync();
 		}
+
+		public async Task<Team> GetTeamByName(string name)
+		{
+			return await db.Teams.FirstOrDefaultAsync(t => t.Name.Equals(name));
+		}
 	}
 }

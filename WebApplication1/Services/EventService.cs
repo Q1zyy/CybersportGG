@@ -45,5 +45,12 @@ namespace WebApplication1.Services
 			var cur = DateOnly.FromDateTime(DateTime.Now);
 			return await db.Events.Where(e => e.StartDate <= cur && e.EndDate >= cur).ToListAsync();
 		}
+
+		public async Task AddMatchToEvent(int id, int matchId)
+		{
+			var e = await GetEvent(id);
+			e.MatchesId.Add(matchId);
+			await db.SaveChangesAsync();
+		}
 	}
 }

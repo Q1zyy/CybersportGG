@@ -17,5 +17,7 @@ namespace WebApplication1.Services
 
 		public Task<IEnumerable<Team>> SearchTeams(string s);
 
+		public Task<Team> GetTeamByName(string name);
+
 	}
 }

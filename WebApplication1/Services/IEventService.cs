@@ -13,6 +13,8 @@ namespace WebApplication1.Services
 		public Task<Event> GetEvent(int id);
 
 		public Task<IEnumerable<Event>> GetOngoingEvents();
+
+		public Task AddMatchToEvent(int id, int matchId);
 		
 		public Task DeleteTeam(int id, int teamId);
 

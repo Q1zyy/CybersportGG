@@ -1,6 +1,7 @@
 ﻿@{
 	var e = ViewBag.CurrentEvent;
 	var teams = ViewBag.CurrentTeams;
+	var matches = ViewBag.CurrentMatches;
 }
 <div>
 	<style>
@@ -15,7 +16,16 @@
 	<br />
 	<a>@e.StartDate - @e.EndDate</a>
 </div>
-
+<p>
+	Matches
+</p>
+@foreach (var match in matches)
+{
+	<p>@match.Team1.Name - @match.Team2.Name @match.Date</p>
+}
+<p>
+	Teams
+</p>	
 @foreach (var team in teams)
 {
 	<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
@@ -44,5 +54,6 @@
 			<a asp-controller="Event" asp-action="DeleteTeam" asp-route-id="@e.Id" asp-route-teamId="@team.Id">Delete</a>
 		}
 	}
+	<a asp-controller="Event" asp-action="AddMatch" asp-route-id="@e.Id">AddMatch</a>
 
 }
