@@ -1,0 +1,25 @@
+﻿@model WebApplication1.ViewModels.EventViewModel
+
+@{
+    var e = ViewBag.CurrentEvent;
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label>Загрузите фото:</label>
+        <input type="file" asp-for="Image" />
+    </div>
+    <div>
+        <label>Введите имя</label>
+        <input value="@e.Name" asp-for="Name" />
+    </div>
+    <div>
+        <label>Start date</label>
+        <input value="@e.StartDate" type="date" asp-for="StartDate" />
+    </div>
+    <div>
+        <label>End date</label>
+        <input value="@e.EndDate" type="date" asp-for="EndDate" />
+    </div>
+    <button type="submit">Upload</button>
+</form>

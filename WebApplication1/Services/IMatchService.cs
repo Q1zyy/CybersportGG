@@ -7,7 +7,9 @@ namespace WebApplication1.Services
 
 		public Task<Match> AddMatch(Match match);
 
-		public Task RemoveMatch(Match match);
+		public Task DeleteMatch(int id);
+
+		public Task ChangeMatch(int id, Match match);
 
 		public Task<IEnumerable<Match>> GetEventMatches(int id);
 

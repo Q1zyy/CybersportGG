@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
 					bytes = memoryStream.ToArray();
 				}
 
-				await _eventService.AddEvent(new Models.Event()
+				await _eventService.AddEvent(new Event()
 				{
 					Name = model.Name,
 					StartDate = model.StartDate,
@@ -58,6 +58,41 @@ namespace WebApplication1.Controllers
 			}
 			return View();
 		}
+
+		[HttpGet]
+		[Authorize(Policy = "admin")]
+		public async Task<IActionResult> Edit(int id)
+		{
+			ViewBag.CurrentEvent = await _eventService.GetEvent(id);
+			return View();
+		}
+		
+		[HttpPost]
+		[Authorize(Policy = "admin")]
+		public async Task<IActionResult> Edit(int id, EventViewModel model)
+		{
+
+			byte[] bytes = null;
+			if (model.Image != null)
+			{
+				using (MemoryStream memoryStream = new MemoryStream())
+				{
+					await model.Image.CopyToAsync(memoryStream);
+					bytes = memoryStream.ToArray();
+				}
+			}
+
+			await _eventService.ChangeEvent(id, new Event()
+			{
+				Name = model.Name,
+				StartDate = model.StartDate,
+				EndDate = model.EndDate,
+				Image = bytes
+			});
+
+			return Redirect(id.ToString());
+		}
+
 
 		[HttpGet("/events")]
 		public async Task<IActionResult> Events()
@@ -85,12 +120,14 @@ namespace WebApplication1.Controllers
 				foreach (var i in curEvent.MatchesId)
 				{
 					var match = await _matchService.GetMatch(i);
-					mathes.Add(new MatchViewModelFull()
+					var mvmf = new MatchViewModelFull()
 					{
+						Id = match.Id,
 						Date = match.Date,
 						Team1 = await _teamService.GetTeam(match.Team1),
 						Team2 = await _teamService.GetTeam(match.Team2)
-					});
+					};
+					mathes.Add(mvmf);
 				}
 
 			}
@@ -106,6 +143,7 @@ namespace WebApplication1.Controllers
 		{
 			List<Team> teams = new List<Team>();
 			Event curEvent = await _eventService.GetEvent(id);
+			List<MatchViewModelFull> mathes = new List<MatchViewModelFull>();
 			ViewBag.CurrentEvent = curEvent;
 			if (curEvent != null)
 			{
@@ -113,9 +151,21 @@ namespace WebApplication1.Controllers
 				{
 					teams.Add(await _teamService.GetTeam(i));
 				}
+				foreach (var i in curEvent.MatchesId)
+				{
+					var match = await _matchService.GetMatch(i);
+					mathes.Add(new MatchViewModelFull()
+					{
+						Id = match.Id,
+						Date = match.Date,
+						Team1 = await _teamService.GetTeam(match.Team1),
+						Team2 = await _teamService.GetTeam(match.Team2)
+					});
+				}
 			}
 			ViewBag.CurrentTeams = teams;
 			ViewBag.Role = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
+			ViewBag.CurrentMatches = mathes;
 			string str = Request.Form["searchString"];
 			ViewBag.SearchingTeams = await _teamService.SearchTeams(str);
 			return View("Event");
@@ -178,6 +228,66 @@ namespace WebApplication1.Controllers
 			var m = await _matchService.AddMatch(match);
 			await _eventService.AddMatchToEvent(id, m.Id);
 			return Redirect(id.ToString());
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> DeleteMatch(int id, int eventId)
+		{
+			await _matchService.DeleteMatch(id);
+			await _eventService.DeleteMatchFromEvent(eventId, id);
+			return Redirect(eventId.ToString());
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> EditMatch(int id)
+		{
+			Match curMatch = await _matchService.GetMatch(id);
+			int eventId = curMatch.EventId;
+			Event curEvent = await _eventService.GetEvent(eventId);
+			ViewBag.CurrentEvent = curEvent;
+			ViewBag.CurrentMatch = curMatch;
+			var teams = (await _eventService.GetEvent(eventId)).TeamsId;
+			List<Team> teams1 = new List<Team>();
+			var options = new List<SelectListItem>();
+			foreach (var team in teams)
+			{
+				teams1.Add(await _teamService.GetTeam(team));
+			}
+			foreach (var team in teams1)
+			{
+				options.Add(new SelectListItem
+				{
+					Value = team.Name,
+					Text = team.Name
+				});
+			}
+			var model = new MatchViewModel
+			{
+				Options = options
+			};
+
+			return View(model);
+		}
+		
+		[HttpPost]
+		public async Task<IActionResult> EditMatch(int id, MatchViewModel matchViewModel)
+		{
+			Match curMatch = await _matchService.GetMatch(id);
+			int eventId = curMatch.EventId;
+			Event curEvent = await _eventService.GetEvent(eventId);
+			var t1 = await _teamService.GetTeamByName(matchViewModel.Team1);
+			var t2 = await _teamService.GetTeamByName(matchViewModel.Team2);
+			var newMatch = new Match
+			{
+				EventId = eventId,
+				Team1 = t1.Id,
+				Team2 = t2.Id,
+				Date = matchViewModel.Date
+			};
+
+			await _matchService.ChangeMatch(id, newMatch);
+
+			return Redirect(eventId.ToString());
 		}
 
 	}

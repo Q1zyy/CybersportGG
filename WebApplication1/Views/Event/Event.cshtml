@@ -22,6 +22,11 @@
 @foreach (var match in matches)
 {
 	<p>@match.Team1.Name - @match.Team2.Name @match.Date</p>
+	if (ViewBag.Role == "admin")
+	{
+		<a asp-controller="Event" asp-action="DeleteMatch" asp-route-id="@match.Id">Delete</a>
+		<a asp-controller="Event" asp-action="EditMatch" asp-route-id="@match.Id">Change</a>
+	}
 }
 <p>
 	Teams
@@ -55,5 +60,5 @@
 		}
 	}
 	<a asp-controller="Event" asp-action="AddMatch" asp-route-id="@e.Id">AddMatch</a>
-
+	<a asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id">ChangeEvent</a>
 }

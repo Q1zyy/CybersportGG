@@ -18,6 +18,10 @@ namespace WebApplication1.Services
 		
 		public Task DeleteTeam(int id, int teamId);
 
+		public Task ChangeEvent(int id, Event model);
+
+		public Task DeleteMatchFromEvent(int id, int matchId);
+
 
 	}
 }

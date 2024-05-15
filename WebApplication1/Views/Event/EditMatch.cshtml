@@ -1,0 +1,13 @@
+﻿@model WebApplication1.ViewModels.MatchViewModel
+
+@{
+	var m = ViewBag.CurrentMatch;
+}
+
+<form asp-controller="Event" asp-action="EditMatch" asp-route-id="@m.Id" method="post">
+	@Html.DropDownListFor(m => m.Team1, Model.Options, "Choose team1")
+	@Html.DropDownListFor(m => m.Team2, Model.Options, "Choose team2")
+	<input asp-for="Date" type="datetime-local" />
+	<button type="submit">Отправить</button>
+</form>
+

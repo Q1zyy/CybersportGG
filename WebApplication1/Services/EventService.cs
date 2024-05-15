@@ -52,5 +52,34 @@ namespace WebApplication1.Services
 			e.MatchesId.Add(matchId);
 			await db.SaveChangesAsync();
 		}
+
+		public async Task ChangeEvent(int id, Event model)
+		{
+			var e = await GetEvent(id);
+			if (model.StartDate != null && model.StartDate != DateOnly.MinValue)
+			{
+				e.StartDate = model.StartDate;
+			}
+			if (model.EndDate != null && model.EndDate != DateOnly.MinValue)
+			{
+				e.EndDate = model.EndDate;
+			}
+			if (model.Image != null)
+			{	
+				e.Image = model.Image;
+			}
+			if (model.Name != null)
+			{
+				e.Name = model.Name;
+			}
+			await db.SaveChangesAsync();
+		}
+
+		public async Task DeleteMatchFromEvent(int id, int matchId)
+		{
+			var e = await GetEvent(id);
+			e.MatchesId.Remove(matchId);
+			await db.SaveChangesAsync();
+		}
 	}
 }
