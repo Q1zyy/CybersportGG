@@ -1,0 +1,17 @@
+﻿@using WebApplication1.ViewModels;
+@model ResultViewModel;
+
+@{
+    var m = ViewBag.CurrentMatch;
+}
+
+<form asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@m.Id" method="post">
+    <div>
+        <label>Score:</label>
+        <input asp-for="Score" />
+    </div>
+    <div>
+        @Html.DropDownListFor(m => m.Winner, Model.Options, "Choose team1")
+    </div>
+    <button type="submit">Закончить матч</button>
+</form>

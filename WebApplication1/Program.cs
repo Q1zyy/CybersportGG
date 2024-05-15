@@ -16,6 +16,7 @@ builder.Services.AddTransient<ITeamService, TeamService>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddTransient<IEventService, EventService>();
 builder.Services.AddTransient<IMatchService, MatchService>();
+builder.Services.AddTransient<IResultService, ResultService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication("Cookie")
     .AddCookie("Cookie", options => options.LoginPath = "/account/login");

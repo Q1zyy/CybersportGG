@@ -13,7 +13,11 @@ namespace WebApplication1.Services
 
 		public Task<IEnumerable<Match>> GetEventMatches(int id);
 
+		public Task<IEnumerable<Match>> GetUpcomingEventMatches(int id);
+
 		public Task<Match> GetMatch(int id);
+
+		public Task CompleteMatch(int id);
 
 	}
 }

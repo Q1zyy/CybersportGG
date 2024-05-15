@@ -13,5 +13,7 @@
 
 		public int EventId { get; set; }
 
+		public bool Done {  get; set; }
+
 	}
 }

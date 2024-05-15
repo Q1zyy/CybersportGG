@@ -7,10 +7,12 @@ namespace WebApplication1.Services
 	{
 
 		private ApplicationDbContext db;
+		private readonly IResultService _resultService;
 
-		public MatchService(ApplicationDbContext context)
+		public MatchService(ApplicationDbContext context, IResultService resultService)
 		{
 			db = context;
+			_resultService = resultService;
 		}
 
 		public async Task<Match> AddMatch(Match match)
@@ -49,11 +51,22 @@ namespace WebApplication1.Services
 		{
 			return await db.Matches.Where(m => m.EventId == id).ToListAsync();
 		}
+		
+		public async Task<IEnumerable<Match>> GetUpcomingEventMatches(int id)
+		{
+			return await db.Matches.Where(m => m.EventId == id && !m.Done).ToListAsync();
+		}
 
 		public async Task<Match> GetMatch(int id)
 		{
 			return await db.Matches.FirstOrDefaultAsync(m => m.Id == id);
 		}
 
-	}
+        public async Task CompleteMatch(int id)
+        {
+			var m = await GetMatch(id);
+			m.Done = true;
+			await db.SaveChangesAsync();
+        }
+    }
 }

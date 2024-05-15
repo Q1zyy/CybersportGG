@@ -16,15 +16,18 @@ namespace WebApplication1.Controllers
 		private readonly IEventService _eventService;
 		private readonly ITeamService _teamService;
 		private readonly IMatchService _matchService;
+		private readonly IResultService _resultService;
 		public EventController(
 			IEventService eventService,
 			ITeamService teamService,
-			IMatchService matchService
+			IMatchService matchService,
+			IResultService resultService
 		)
 		{
 			_eventService = eventService;
 			_teamService = teamService;
 			_matchService = matchService;
+			_resultService = resultService;
 		}
 
 		[HttpGet]
@@ -120,14 +123,17 @@ namespace WebApplication1.Controllers
 				foreach (var i in curEvent.MatchesId)
 				{
 					var match = await _matchService.GetMatch(i);
-					var mvmf = new MatchViewModelFull()
+					if (!match.Done)
 					{
-						Id = match.Id,
-						Date = match.Date,
-						Team1 = await _teamService.GetTeam(match.Team1),
-						Team2 = await _teamService.GetTeam(match.Team2)
-					};
-					mathes.Add(mvmf);
+						var mvmf = new MatchViewModelFull()
+						{
+							Id = match.Id,
+							Date = match.Date,
+							Team1 = await _teamService.GetTeam(match.Team1),
+							Team2 = await _teamService.GetTeam(match.Team2)
+						};
+						mathes.Add(mvmf);
+					}
 				}
 
 			}
@@ -139,7 +145,8 @@ namespace WebApplication1.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> SearchTeams(int id)
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> SearchTeams(int id)
 		{
 			List<Team> teams = new List<Team>();
 			Event curEvent = await _eventService.GetEvent(id);
@@ -184,7 +191,8 @@ namespace WebApplication1.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> AddMatch(int id)
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> AddMatch(int id)
 		{
 			Event curEvent = await _eventService.GetEvent(id);
 			ViewBag.CurrentEvent = curEvent;
@@ -213,7 +221,8 @@ namespace WebApplication1.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddMatch(int id, MatchViewModel model)
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> AddMatch(int id, MatchViewModel model)
 		{
 			var ev = await _eventService.GetEvent(id);
 			var t1 = await _teamService.GetTeamByName(model.Team1);
@@ -231,7 +240,8 @@ namespace WebApplication1.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> DeleteMatch(int id, int eventId)
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> DeleteMatch(int id, int eventId)
 		{
 			await _matchService.DeleteMatch(id);
 			await _eventService.DeleteMatchFromEvent(eventId, id);
@@ -239,7 +249,8 @@ namespace WebApplication1.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> EditMatch(int id)
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> EditMatch(int id)
 		{
 			Match curMatch = await _matchService.GetMatch(id);
 			int eventId = curMatch.EventId;
@@ -270,7 +281,8 @@ namespace WebApplication1.Controllers
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> EditMatch(int id, MatchViewModel matchViewModel)
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> EditMatch(int id, MatchViewModel matchViewModel)
 		{
 			Match curMatch = await _matchService.GetMatch(id);
 			int eventId = curMatch.EventId;
@@ -289,6 +301,48 @@ namespace WebApplication1.Controllers
 
 			return Redirect(eventId.ToString());
 		}
+
+		[HttpGet]
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> ConfirmMatch(int id)
+		{
+			var match = await _matchService.GetMatch(id);
+			var t1 = await _teamService.GetTeam(match.Team1);
+			var t2 = await _teamService.GetTeam(match.Team2);
+			var options = new List<SelectListItem>();
+			options.Add(new SelectListItem
+			{
+				Text = t1.Name,
+				Value = t1.Name
+			});
+			options.Add(new SelectListItem
+			{
+				Text = t2.Name,
+				Value = t2.Name
+			});
+			ViewBag.CurrentMatch = match;
+			var model = new ResultViewModel();
+            model.Options = options;
+			return View(model);
+		}		
+		
+		[HttpPost]
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> ConfirmMatch(int id, ResultViewModel model)
+		{
+			var team = await _teamService.GetTeamByName(model.Winner);
+			await _matchService.CompleteMatch(id);
+			var m = await _matchService.GetMatch(id);
+			await _resultService.AddResult(new Result
+			{
+				MatchId = id,
+				Score = model.Score,
+				Winner = team.Id 
+			});
+			return Redirect(m.EventId.ToString());
+		}
+
+
 
 	}
 }
