@@ -59,7 +59,7 @@ namespace WebApplication1.Controllers
 					Image = bytes
 				});
 			}
-			return View();
+			return Redirect("/events");
 		}
 
 		[HttpGet]
@@ -246,6 +246,14 @@ namespace WebApplication1.Controllers
 			await _matchService.DeleteMatch(id);
 			await _eventService.DeleteMatchFromEvent(eventId, id);
 			return Redirect(eventId.ToString());
+		}
+		
+		[HttpGet]
+        [Authorize(Policy = "admin")]
+        public async Task<IActionResult> DeleteEvent(int id)
+		{
+			await _eventService.DeleteEvent(id);
+			return Redirect("/events");
 		}
 
 		[HttpGet]

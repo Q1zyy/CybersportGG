@@ -6,10 +6,12 @@ namespace WebApplication1.Services
 	public class EventService : IEventService
 	{
 		private ApplicationDbContext db;
+		private readonly IMatchService _matchService;
 
-		public EventService(ApplicationDbContext context)
+		public EventService(ApplicationDbContext context, IMatchService matchService)
 		{
 			db = context;
+			_matchService = matchService;
 		}
 
 		public async Task AddEvent(Event model)
@@ -79,6 +81,18 @@ namespace WebApplication1.Services
 		{
 			var e = await GetEvent(id);
 			e.MatchesId.Remove(matchId);
+			await db.SaveChangesAsync();
+		}
+
+		public async Task DeleteEvent(int id)
+		{
+			var ev = await GetEvent(id);
+			var lst = ev.MatchesId.ToList();
+			db.Events.Remove(ev);
+			foreach (var m in lst)
+			{
+				await _matchService.DeleteMatch(m);
+			}
 			await db.SaveChangesAsync();
 		}
 	}

@@ -8,6 +8,8 @@ namespace WebApplication1.Services
 
 		public Task AddEvent(Event model);
 
+		public Task DeleteEvent(int id);
+
 		public Task AddTeam(int id, int teamId);
 			
 		public Task<Event> GetEvent(int id);
