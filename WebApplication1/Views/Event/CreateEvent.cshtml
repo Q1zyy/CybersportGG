@@ -2,22 +2,30 @@
 @{
     Layout = "_Layout";
 }
-<form method="post" enctype="multipart/form-data">
-    <div>
-        <label>Загрузите фото:</label>
-        <input type="file" asp-for="Image" />
+<link rel="stylesheet" href="~/css/createevent.css" />
+<body>
+    <div class="container">
+        <h2>Создание события</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Загрузите фото:</label>
+                <input type="file" asp-for="Image" />
+            </div>
+            <div class="form-group">
+                <label>Введите имя</label>
+                <input asp-for="Name" />
+            </div>
+            <div class="form-group">
+                <label>Start date</label>
+                <input type="date" asp-for="StartDate" />
+            </div>
+            <div class="form-group">
+                <label>End date</label>
+                <input type="date" asp-for="EndDate" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Отправить">
+            </div>
+        </form>
     </div>
-    <div>
-        <label>Введите имя</label>
-        <input asp-for="Name" />
-    </div>
-    <div>
-        <label>Start date</label>
-        <input type="date" asp-for="StartDate" />
-    </div>
-    <div>
-        <label>End date</label>
-        <input type="date" asp-for="EndDate" />
-    </div>
-    <button type="submit">Upload</button>
-</form>
+</body>
