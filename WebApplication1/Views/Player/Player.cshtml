@@ -1,4 +1,7 @@
-﻿<a asp-controller="Home" asp-action="Index">Home</a>
+﻿@{
+	Layout = "_Layout";
+}
+<a asp-controller="Home" asp-action="Index">Home</a>
 <br />
 @{
 	var a = ViewBag.CurrentPlayer;

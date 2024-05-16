@@ -8,8 +8,6 @@ namespace WebApplication1.Services
 	public class NewsService : INewsService
 	{
 		private ApplicationDbContext db;
-		public string path = @"D:\Forum\WebApplication1\WebApplication1\CollectionNews";
-		public string newsLenPath = @"D:\Forum\WebApplication1\WebApplication1\NewsCount.txt";
 
 		public NewsService(ApplicationDbContext context)
 		{

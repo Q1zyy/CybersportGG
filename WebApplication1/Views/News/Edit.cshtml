@@ -1,17 +1,25 @@
-﻿
-@model WebApplication1.ViewModels.NewsViewModel
-<a asp-controller="Account" asp-action="Logout">Logout</a>
-<a asp-controller="Home" asp-action="Index">Index</a>
-<h1>Hello</h1>
-
-<form asp-controller="News" asp-action="Edit" asp-route-id="@Context.Request.Query["id"]" method="post">
-    <div>
-        <label for="title">Заголовок:</label>
-        <input asp-for="Title" value="@ViewBag.NewsTitle" /> 
+﻿@model WebApplication1.ViewModels.NewsViewModel
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/editnews.css" />
+<body>
+    <div class="container">
+        <h1>Отредактировать</h1>
+        <div class="news-form">
+            <form asp-controller="News" asp-action="Edit" asp-route-id="@Context.Request.Query["id"]" method="post">
+                <div class="form-group">
+                    <label for="title">Заголовок:</label>
+                    <input asp-for="Title" value="@ViewBag.NewsTitle" /> 
+                </div>
+                <div class="form-group">
+                    <label for="content">Содержание:</label>
+                    <textarea name="Content" required>@ViewBag.NewsContent</textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn">
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <label for="content">Содержание:</label>
-        <textarea name="Content">@ViewBag.NewsContent</textarea>
-    </div>
-    <button type="submit">Отредачить новость</button>
-</form>
+</body>

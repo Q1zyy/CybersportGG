@@ -1,18 +1,26 @@
-﻿
-@model WebApplication1.ViewModels.NewsViewModel
-<a asp-controller="Account" asp-action="Logout">Logout</a>
-<a asp-controller="Home" asp-action="Index">Index</a>
-<h1>Hello</h1>
-
-
-<form asp-controller="News" asp-action="CreateNews" method="post">
-    <div>
-        <label for="title">Заголовок:</label>
-        <input asp-for="Title"/>
+﻿@model WebApplication1.ViewModels.NewsViewModel
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/createnews.css" />
+<body>
+    <div class="container">
+        <h1>Создать новость</h1>
+        <div class="news-form">
+            <form asp-controller="News" asp-action="CreateNews" method="post">
+                <div class="form-group">
+                    <label for="title">Заголовок:</label>
+                    <input asp-for="Title" required/>
+                </div>
+                <div class="form-group">
+                    <label for="content">Содержание:</label>
+                    <textarea asp-for="Content" required></textarea>
+                </div>
+                <div class="from-group">
+                    <input class="btn" type="submit">
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <label for="content">Содержание:</label>
-        <textarea asp-for="Content"></textarea>
-    </div>
-    <button type="submit">Создать новость</button>
-</form>
+
+</body>

@@ -20,7 +20,26 @@ namespace WebApplication1.Services
 			await db.SaveChangesAsync();
 		}
 
-		public async Task<IEnumerable<Comment>> GetComments(int id)
+        public async Task DeleteComment(int id)
+        {
+			var com = await GetComment(id);
+			db.Comments.Remove(com);
+			await db.SaveChangesAsync();
+        }
+
+        public async Task DeleteNewsComments(int id)
+        {
+			var del = db.Comments.Where(com => com.NewsId == id);
+			db.Comments.RemoveRange(del);
+			await db.SaveChangesAsync();
+        }
+
+        public async Task<Comment> GetComment(int id)
+        {
+            return await db.Comments.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Comment>> GetComments(int id)
 		{
 			return await db.Comments.ToListAsync();
 		}

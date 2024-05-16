@@ -1,20 +1,25 @@
 ﻿@model WebApplication1.ViewModels.UserViewModel
-
-<h1>Register</h1>
-<a asp-controller="Account" asp-action="Login">Login</a>
-<form asp-controller="Account" asp-action="Register" method="post">
-    <div>
-        <label>Username:</label>
-        <input asp-for="Username" />
-        <span asp-validation-for="Username"></span>
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/register.css" />
+<body>
+    <div class="container">
+        <h2>Регистрация</h2>
+        <form asp-controller="Account" asp-action="Register" method="post">
+            <div>
+                <label>Имя пользователя:</label>
+                <input asp-for="Username" placeholder="Введите имя пользователя" required />
+                <span asp-validation-for="Username"></span>
+            </div>
+            <div>
+                <label>Пароль:</label>
+                <input asp-for="Password" type="password" placeholder="Введите пароль" required />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div>
+                <input type="submit">
+            </div>
+        </form>
     </div>
-    <div>
-        <label>Password:</label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-primary">Register</button>
-    </div>
-</form>
-<a asp-controller="Home" asp-action="Index">Home</a>
+</body>

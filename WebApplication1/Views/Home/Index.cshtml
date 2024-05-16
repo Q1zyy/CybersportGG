@@ -1,4 +1,7 @@
-﻿<a asp-controller="News" asp-action="News">News</a>
+﻿@{
+	Layout = "_Layout";
+}
+<a asp-controller="News" asp-action="News">News</a>
 @if (!ViewBag.IsAuth)
 {
 	<a asp-controller="Account" asp-action="Register">Register</a>

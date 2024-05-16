@@ -1,4 +1,7 @@
-﻿<a asp-controller="Account" asp-action="Logout">Logout</a>
+﻿@{
+	Layout = "_Layout";
+}
+<a asp-controller="Account" asp-action="Logout">Logout</a>
 <a asp-controller="Home" asp-action="Index">Index</a>
 
 @foreach (var user in ViewBag.Users)

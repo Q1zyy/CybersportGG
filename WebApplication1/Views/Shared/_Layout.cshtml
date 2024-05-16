@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+}
+
+<link rel="stylesheet" href="~/css/_layout.css" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CybersportGG</title>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a asp-controller="News" asp-action="News">Новости</a></li>
+            <li><a href="#">Матчи</a></li>
+            <li><a href="#">Результаты</a></li>
+            <li><a asp-controller="Event" asp-action="Events" >События</a></li>
+            @if (user.Identity.IsAuthenticated)
+            {
+                <li><a asp-controller="Account" asp-action="Logout">Выйти</a></li>
+            }
+            else
+            {  
+            <li><a asp-controller="Account" asp-action="Login">Войти</a></li>
+            <li><a asp-controller="Account" asp-action="Register">Зарегистрироваться</a></li>
+            }
+        </ul>
+    </div>
+    <div class="content">
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

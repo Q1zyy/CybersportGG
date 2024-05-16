@@ -1,19 +1,29 @@
 ﻿@using System.Security.Claims;
-<a asp-controller="Home" asp-action="Index">Home</a>
-<h1>News</h1>
+@{
+	Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/news.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<body>
 
-@foreach (var news in ViewBag.NewsList)
-{
-	<div>
-		<h2> <a href="/news/@news.Id">@news.Title</a> </h2>
-		@if (news.Author == User.Identity.Name || User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin")
+	<h1 class="news-heading">Новости</h1>
+	<div class="news-list">
+		@foreach (var news in ViewBag.NewsList)
 		{
-			<a asp-controller="News" asp-action="Delete" asp-route-id="@news.Id">delete</a>
-		}
-		@if (news.Author == User.Identity.Name)
-		{
-			<a asp-controller="News" asp-action="Edit" asp-route-id="@news.Id">edit</a>
+			<div class="news-item">
+				<h2 class="news-item-title"><a href="/news/@news.Id">@news.Title</a></h2>
+				<p class="news-item-date">@news.Date</p>
+				<div class="news-item-actions">
+					@if (news.Author == User.Identity.Name || User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin")
+					{
+						<a asp-controller="News" asp-action="Delete" asp-route-id="@news.Id"><i class="fas fa-trash"></i></a>
+					}
+					@if (news.Author == User.Identity.Name)
+					{
+						<a asp-controller="News" asp-action="Edit" asp-route-id="@news.Id"><i class="fas fa-edit"></i></a>
+					}
+				</div>
+			</div>
 		}
 	</div>
-}
-
+</body>

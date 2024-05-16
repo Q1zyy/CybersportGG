@@ -9,5 +9,12 @@ namespace WebApplication1.Services
 
 		public Task AddComment(Comment model);
 
+		public Task DeleteComment(int id);
+
+		public Task<Comment> GetComment(int id);
+
+		public Task DeleteNewsComments(int id);
+
+
 	}
 }

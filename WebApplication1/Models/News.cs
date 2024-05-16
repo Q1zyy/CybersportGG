@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Models
+﻿using Microsoft.Identity.Client;
+
+namespace WebApplication1.Models
 {
 	public class News
 	{
@@ -9,6 +11,10 @@
 		public string Content { get; set; }
 
 		public string Author { get; set; }
+
+		public DateTime Date { get; set; }
+
+		public bool IsShow { get; set; } = true;
 
 	}
 }

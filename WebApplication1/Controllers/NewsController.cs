@@ -60,8 +60,8 @@ namespace WebApplication1.Controllers
 			{
 				Author = User.Identity.Name,
 				Content = model.Content,
-				Title = model.Title
-
+				Title = model.Title,
+				Date = DateTime.Now
 			});
 
 			return Redirect("/news");
@@ -73,6 +73,7 @@ namespace WebApplication1.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			await _newsService.DeleteNews(id);
+			await _commentService.DeleteNewsComments(id);
 			return Redirect("/news");
 		}
 		
