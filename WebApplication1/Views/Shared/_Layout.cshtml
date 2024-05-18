@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@using System.Security.Claims;
 @{
     var user = HttpContextAccessor.HttpContext.User;
 }
@@ -18,6 +18,10 @@
             <li><a href="#">Матчи</a></li>
             <li><a href="#">Результаты</a></li>
             <li><a asp-controller="Event" asp-action="Events" >События</a></li>
+            @if (User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin")
+            {
+                <li><a asp-controller="Admin" asp-action="Index">Админка</a></li>
+            }
             @if (user.Identity.IsAuthenticated)
             {
                 <li><a asp-controller="Account" asp-action="Logout">Выйти</a></li>

@@ -2,14 +2,22 @@
 @{
     Layout = "_Layout";
 }
-<form method="post" enctype="multipart/form-data">
-    <div>
-        <label for="title">Загрузите фото:</label>
-        <input type="file" asp-for="Image" />
+<link rel="stylesheet" href="~/css/createteam.css" />
+<body>
+    <div class="container">
+        <h1>Редактирование команды</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Загрузите фото:</label>
+                <input type="file" asp-for="Image" />
+            </div>
+            <div class="form-group">
+                <label for="title">Введите имя</label>
+                <input value="@ViewBag.CurrentTeam.Name" asp-for="Name" />
+            </div>
+            <div class="form-group">
+                <input value="Отправить" type="submit">
+            </div>
+        </form>
     </div>
-    <div>
-        <label for="title">Введите имя</label>
-        <input value="@ViewBag.CurrentTeam.Name" asp-for="Name" />
-    </div>
-    <button type="submit">Upload</button>
-</form>
+</body>

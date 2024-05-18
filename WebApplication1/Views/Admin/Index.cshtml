@@ -1,9 +1,13 @@
 ﻿@{
     Layout = "_Layout";
 }
-<a asp-controller="Account" asp-action="Logout">Logout</a>
-<a asp-controller="Home" asp-action="Index">Index</a>
-<a asp-controller="Admin" asp-action="Users">Users</a>
-<a asp-controller="Team" asp-action="CreateTeam">AddTeam</a>
-<a asp-controller="Player" asp-action="CreatePlayer">AddPlayer</a>
-<a asp-controller="Event" asp-action="CreateEvent">AddEvent</a>
+<link rel="stylesheet" href="~/css/adminindex.css" />
+<body>
+    <h1>Панель Админа</h1>
+    <div class="buttons">
+        <button onclick="location.href='@Url.Action("Users","Admin")'">Пользователи</button>
+        <button onclick="location.href='@Url.Action("CreateTeam","Team")'">Добавить команду</button>
+        <button onclick="location.href='@Url.Action("CreatePlayer","Player")'">Добавить игрока</button>
+        <button onclick="location.href='@Url.Action("CreateEvent","Event")'">Добавить событие</button>
+    </div>
+</body>

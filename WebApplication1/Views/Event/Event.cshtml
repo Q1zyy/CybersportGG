@@ -4,63 +4,69 @@
 	var teams = ViewBag.CurrentTeams;
 	var matches = ViewBag.CurrentMatches;
 }
-<div>
-	<style>
-		img {
-			width: 300px;
-			height: 150px;
-		}
-	</style>
-	<img src="data:image /png;base64,@(Convert.ToBase64String(e.Image))" />
-	<br />
-	<a href="/event/@e.Id">@e.Name</a>
-	<br />
-	<a>@e.StartDate - @e.EndDate</a>
-</div>
-<p>
-	Matches
-</p>
-@foreach (var match in matches)
-{
-	<p>@match.Team1.Name - @match.Team2.Name @match.Date</p>
-	if (ViewBag.Role == "admin")
-	{
-		<a asp-controller="Event" asp-action="DeleteMatch" asp-route-id="@match.Id">Delete</a>
-		<a asp-controller="Event" asp-action="EditMatch" asp-route-id="@match.Id">Change</a>
-		<a asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@match.Id">ConfirmMatch</a>
-	}
-}
-<p>
-	Teams
-</p>	
-@foreach (var team in teams)
-{
-	<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
-	<p>
-		Nickname: @team.Name
-	</p>
-}
-
-@if (ViewBag.Role == "admin")
-{
-	<form asp-controller="Event" asp-action="SearchTeams" asp-route-id="@e.Id" method="post">
-		<input name="searchString" type="text" />
-		<button type="submit">Отправить</button>
-	</form>
-
-	var searchingTeams = ViewBag.SearchingTeams;
-	if (searchingTeams != null)
-	{
-		foreach (var team in searchingTeams)
+<link rel="stylesheet" href="~/css/event.css" />
+<body>
+	<div class="event-container">
+		<div class="event-header">
+			<img class="event-image" src="data:image /png;base64,@(Convert.ToBase64String(e.Image))" />
+		</div>
+		<div class="event-info">
+			<h1 class="event-name"><a href="/event/@e.Id">@e.Name</a></h1>
+			<p class="event-date">@e.StartDate - @e.EndDate</p>
+		</div>
+		<div class="match-container">
+			<h1>Matches</h1>
+			<div class="match-item">
+				@foreach (var match in matches)
+				{
+					<div class="team-name">
+						@match.Team1.Name
+					</div>
+					<div class="team-name">
+						@match.Team2.Name
+					</div>
+					if (ViewBag.Role == "admin")
+					{
+						<a asp-controller="Event" asp-action="DeleteMatch" asp-route-id="@match.Id">Delete</a>
+						<a asp-controller="Event" asp-action="EditMatch" asp-route-id="@match.Id">Change</a>
+						<a asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@match.Id">ConfirmMatch</a>
+					}
+				}
+			</div>
+		</div>
+		<p>
+			Teams
+		</p>	
+		@foreach (var team in teams)
 		{
 			<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
 			<p>
 				Nickname: @team.Name
 			</p>
-			<a asp-controller="Event" asp-action="AddTeam" asp-route-id="@e.Id" asp-route-teamId="@team.Id">Add</a>
-			<a asp-controller="Event" asp-action="DeleteTeam" asp-route-id="@e.Id" asp-route-teamId="@team.Id">Delete</a>
 		}
-	}
-	<a asp-controller="Event" asp-action="AddMatch" asp-route-id="@e.Id">AddMatch</a>
-	<a asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id">ChangeEvent</a>
-}
+
+		@if (ViewBag.Role == "admin")
+		{
+			<form asp-controller="Event" asp-action="SearchTeams" asp-route-id="@e.Id" method="post">
+				<input name="searchString" type="text" />
+				<button type="submit">Отправить</button>
+			</form>
+
+			var searchingTeams = ViewBag.SearchingTeams;
+			if (searchingTeams != null)
+			{
+				foreach (var team in searchingTeams)
+				{
+					<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+					<p>
+						Nickname: @team.Name
+					</p>
+					<a asp-controller="Event" asp-action="AddTeam" asp-route-id="@e.Id" asp-route-teamId="@team.Id">Add</a>
+					<a asp-controller="Event" asp-action="DeleteTeam" asp-route-id="@e.Id" asp-route-teamId="@team.Id">Delete</a>
+				}
+			}
+			<a asp-controller="Event" asp-action="AddMatch" asp-route-id="@e.Id">AddMatch</a>
+			<a asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id">ChangeEvent</a>
+		}
+	</div>
+</body>
