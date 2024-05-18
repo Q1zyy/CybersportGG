@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Security.Claims;
+@{
 	Layout = "_Layout";
 	var events = ViewBag.Events;
 }
@@ -18,10 +19,12 @@
 					<p class="date">Начало: @e.StartDate</p>
 					<p class="date">Конец: @e.EndDate</p>
 				</div>
-				<div class="item-actions">
-					<a asp-asp-controller="Event" asp-action="DeleteEvent" asp-route-id="@e.Id"><i class="fas fa-trash"></i></a>
-					<a asp-asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id"><i class="fas fa-edit"></i></a>
-				</div>
+				@if (User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin") {
+					<div class="item-actions">
+						<a asp-asp-controller="Event" asp-action="DeleteEvent" asp-route-id="@e.Id"><i class="fas fa-trash"></i></a>
+						<a asp-asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id"><i class="fas fa-edit"></i></a>
+					</div>
+				}
 			</li>
 		}
 	</ul>

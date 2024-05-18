@@ -1,10 +1,12 @@
-﻿@{
+﻿@using System.Security.Claims;
+@{
 	Layout = "_Layout";
 	var e = ViewBag.CurrentEvent;
 	var teams = ViewBag.CurrentTeams;
 	var matches = ViewBag.CurrentMatches;
 }
 <link rel="stylesheet" href="~/css/event.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <body>
 	<div class="event-container">
 		<div class="event-header">
@@ -15,35 +17,55 @@
 			<p class="event-date">@e.StartDate - @e.EndDate</p>
 		</div>
 		<div class="match-container">
-			<h1>Matches</h1>
-			<div class="match-item">
-				@foreach (var match in matches)
-				{
-					<div class="team-name">
-						@match.Team1.Name
-					</div>
-					<div class="team-name">
-						@match.Team2.Name
-					</div>
-					if (ViewBag.Role == "admin")
+			<h1 class="team-section-title">Матчи</h1>
+			<table>
+				<tbody>
+					@foreach (var match in matches)
 					{
-						<a asp-controller="Event" asp-action="DeleteMatch" asp-route-id="@match.Id">Delete</a>
-						<a asp-controller="Event" asp-action="EditMatch" asp-route-id="@match.Id">Change</a>
-						<a asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@match.Id">ConfirmMatch</a>
+						<tr>
+							<td>
+								@match.Date
+							</td>
+							<td>
+								<div>
+									<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(match.Team1.Image))" />
+									<br />
+									<div class="image-container">
+										@match.Team1.Name
+									</div>
+								</div>
+							</td>
+							<td>
+								<div>
+									<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(match.Team2.Image))" />
+									<br />
+									<div class="image-container">
+										@match.Team2.Name
+									</div>
+								</div>
+							</td>
+							@if (ViewBag.Role == "admin")
+							{
+								<td>
+									<a asp-controller="Event" asp-action="DeleteMatch" asp-route-id="@match.Id"><i class="fas fa-trash"></i></a>
+									<a asp-controller="Event" asp-action="EditMatch" asp-route-id="@match.Id"><i class="fas fa-edit"></i></a>
+									<a asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@match.Id"><i class="fas fa-check"></i></a>
+								</td>
+							}
+						</tr>
 					}
+				</tbody>
+			</table>
+		</div>
+		<div class="all-teams">
+			<h1 class="team-section-title">Команды</h1>	
+			<div class="team-logos">
+				@foreach (var team in teams)
+				{
+					<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
 				}
 			</div>
 		</div>
-		<p>
-			Teams
-		</p>	
-		@foreach (var team in teams)
-		{
-			<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
-			<p>
-				Nickname: @team.Name
-			</p>
-		}
 
 		@if (ViewBag.Role == "admin")
 		{
