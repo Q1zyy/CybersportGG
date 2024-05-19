@@ -47,7 +47,7 @@
 							@if (ViewBag.Role == "admin")
 							{
 								<td>
-									<a asp-controller="Event" asp-action="DeleteMatch" asp-route-id="@match.Id"><i class="fas fa-trash"></i></a>
+									<a asp-controller="Event" asp-action="DeleteMatch" asp-route-id="@match.Id" asp-route-eventId="@e.Id"><i class="fas fa-trash"></i></a>
 									<a asp-controller="Event" asp-action="EditMatch" asp-route-id="@match.Id"><i class="fas fa-edit"></i></a>
 									<a asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@match.Id"><i class="fas fa-check"></i></a>
 								</td>

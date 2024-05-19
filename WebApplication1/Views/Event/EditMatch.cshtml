@@ -4,11 +4,22 @@
     Layout = "_Layout"; 
 	var m = ViewBag.CurrentMatch;
 }
-
-<form asp-controller="Event" asp-action="EditMatch" asp-route-id="@m.Id" method="post">
-	@Html.DropDownListFor(m => m.Team1, Model.Options, "Choose team1")
-	@Html.DropDownListFor(m => m.Team2, Model.Options, "Choose team2")
-	<input asp-for="Date" type="datetime-local" />
-	<button type="submit">Отправить</button>
-</form>
+<link rel="stylesheet" href="~/css/creatematch.css" />
+<body>
+	<div class="container">
+		<h1>Изменение матча</h1>
+		<form asp-controller="Event" asp-action="EditMatch" asp-route-id="@m.Id" method="post">
+			<div class="dropdown">
+				@Html.DropDownListFor(m => m.Team1, Model.Options, "Выберите команду", new { @class = "dropdown-btn", required = "required" })
+			</div>
+			<div class="dropdown">
+				@Html.DropDownListFor(m => m.Team2, Model.Options, "Выберите команду", new { @class = "dropdown-btn", required = "required" })
+			</div>
+			<div class="date-time-picker">
+				<input asp-for="Date" type="datetime-local" />
+			</div>
+			<button	class="submit-btn" type="submit">Отправить</button	class>
+		</form>
+	</div>
+</body>
 
