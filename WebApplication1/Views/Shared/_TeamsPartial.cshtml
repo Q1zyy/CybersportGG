@@ -1,0 +1,14 @@
+﻿@model WebApplication1.ViewModels.TeamsListViewModel;
+
+
+<div>
+	@foreach (var team in Model.teams)
+	{
+		<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+		<p>
+			Nickname: @team.Name
+		</p>
+		<a asp-controller="Event" asp-action="AddTeam" asp-route-id="@Model.Id" asp-route-teamId="@team.Id">Add</a>
+		<a asp-controller="Event" asp-action="DeleteTeam" asp-route-id="@Model.Id" asp-route-teamId="@team.Id">Delete</a>
+	}
+</div>

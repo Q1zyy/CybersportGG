@@ -5,6 +5,9 @@
 	var teams = ViewBag.CurrentTeams;
 	var matches = ViewBag.CurrentMatches;
 }
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
 <link rel="stylesheet" href="~/css/event.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <body>
@@ -69,26 +72,31 @@
 
 		@if (ViewBag.Role == "admin")
 		{
-			<form asp-controller="Event" asp-action="SearchTeams" asp-route-id="@e.Id" method="post">
-				<input name="searchString" type="text" />
-				<button type="submit">Отправить</button>
-			</form>
-
-			var searchingTeams = ViewBag.SearchingTeams;
-			if (searchingTeams != null)
-			{
-				foreach (var team in searchingTeams)
-				{
-					<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
-					<p>
-						Nickname: @team.Name
-					</p>
-					<a asp-controller="Event" asp-action="AddTeam" asp-route-id="@e.Id" asp-route-teamId="@team.Id">Add</a>
-					<a asp-controller="Event" asp-action="DeleteTeam" asp-route-id="@e.Id" asp-route-teamId="@team.Id">Delete</a>
-				}
-			}
+			<h1 class="team-section-title">Добавить команду</h1>
+			<input id="searchTeams" name="searchString" type="text"/>
+			<button class="btn" id="searchButton" data-id="@e.Id" type="submit">Отправить</button>
+			<div id="teamsPartial"></div>
 			<a asp-controller="Event" asp-action="AddMatch" asp-route-id="@e.Id">AddMatch</a>
 			<a asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id">ChangeEvent</a>
 		}
 	</div>
 </body>
+
+
+<script>
+	$(document).ready(function () {
+		$('#searchButton').click(function () {
+			var id = parseInt($(this).data('id'));
+			var str = $('#searchTeams').val();
+
+			$.ajax({
+				url: '@Url.Action("SearchTeams", "Event")',
+				type: 'GET',
+				data: { id: id, str: str},
+				success: function (result) {
+					$('#teamsPartial').html(result);
+				}
+			});
+		});
+	});
+</script>

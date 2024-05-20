@@ -144,38 +144,16 @@ namespace WebApplication1.Controllers
 			return View();
 		}
 
-		[HttpPost]
+		[HttpGet]
         [Authorize(Policy = "admin")]
-        public async Task<IActionResult> SearchTeams(int id)
+        public async Task<IActionResult> SearchTeams(int id, string str)
 		{
-			List<Team> teams = new List<Team>();
-			Event curEvent = await _eventService.GetEvent(id);
-			List<MatchViewModelFull> mathes = new List<MatchViewModelFull>();
-			ViewBag.CurrentEvent = curEvent;
-			if (curEvent != null)
+			TeamsListViewModel model = new TeamsListViewModel
 			{
-				foreach (var i in curEvent.TeamsId)
-				{
-					teams.Add(await _teamService.GetTeam(i));
-				}
-				foreach (var i in curEvent.MatchesId)
-				{
-					var match = await _matchService.GetMatch(i);
-					mathes.Add(new MatchViewModelFull()
-					{
-						Id = match.Id,
-						Date = match.Date,
-						Team1 = await _teamService.GetTeam(match.Team1),
-						Team2 = await _teamService.GetTeam(match.Team2)
-					});
-				}
-			}
-			ViewBag.CurrentTeams = teams;
-			ViewBag.Role = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
-			ViewBag.CurrentMatches = mathes;
-			string str = Request.Form["searchString"];
-			ViewBag.SearchingTeams = await _teamService.SearchTeams(str);
-			return View("Event");
+				Id = id,
+				teams = (await _teamService.SearchTeams(str)).ToList()
+			};
+			return PartialView("_TeamsPartial", model);
 		}
 
 		public async Task<IActionResult> AddTeam(int id, int teamId)
