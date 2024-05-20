@@ -139,16 +139,22 @@ body {
     text-align: center;
 }
 
-
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-.btn {
+    .input-group input[type="text"] {
+        flex-grow: 1;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+.input-group .btn {
     display: inline-block;
     background-color: #333;
     color: #fff;
@@ -158,6 +164,6 @@ input[type="text"] {
     transition: background-color 0.3s ease;
 }
 
-    .btn:hover {
+    .input-group .btn:hover {
         background-color: #555;
     }

@@ -1,14 +1,60 @@
 ﻿@model WebApplication1.ViewModels.TeamsListViewModel;
 
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<link rel="stylesheet" href="~/css/teamslistpartial.css" />
 
-<div>
-	@foreach (var team in Model.teams)
-	{
-		<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
-		<p>
-			Nickname: @team.Name
-		</p>
-		<a asp-controller="Event" asp-action="AddTeam" asp-route-id="@Model.Id" asp-route-teamId="@team.Id">Add</a>
-		<a asp-controller="Event" asp-action="DeleteTeam" asp-route-id="@Model.Id" asp-route-teamId="@team.Id">Delete</a>
-	}
-</div>
+<body>
+	<div class="container">
+		@foreach (var team in Model.teams)
+		{
+			<div class="block">
+				<div class="image-container">
+					<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+				</div>
+				<div class="content">
+					<h3>@team.Name</h3>
+					<div class="buttons">
+						<button id="addButton" data-id="@Model.Id" data-teamid="@team.Id">Add</button>
+						<button id="deleteButton" class="remove" data-id="@Model.Id" data-teamid="@team.Id">Delete</button>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</body>
+
+<script>
+	$(document).ready(function () {
+		$('#addButton').click(function () {
+			var id = $(this).data('id');
+			var teamId = $(this).data('teamid');
+			$.ajax({
+				url: '@Url.Action("AddTeam", "Event")',
+				data: { id: id, teamId: teamId },
+				success: function (result) {
+					window.location.reload();
+				}
+			});
+		});
+	});
+</script>
+
+
+<script>
+	$(document).ready(function () {
+		$('#deleteButton').click(function () {
+			var id = $(this).data('id');
+			var teamId = $(this).data('teamid');
+			$.ajax({
+				url: '@Url.Action("DeleteTeam", "Event")',
+				data: { id: id, teamId: teamId },
+				success: function (result) {
+					window.location.reload();
+				}
+			});
+		});
+	});
+</script>
+

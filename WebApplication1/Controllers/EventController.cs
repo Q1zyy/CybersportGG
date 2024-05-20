@@ -160,8 +160,8 @@ namespace WebApplication1.Controllers
 		{
 			await _eventService.AddTeam(id, teamId);
 			return Redirect(id.ToString());
-		}	
-		
+		}
+
 		public async Task<IActionResult> DeleteTeam(int id, int teamId)
 		{
 			await _eventService.DeleteTeam(id, teamId);

@@ -73,8 +73,10 @@
 		@if (ViewBag.Role == "admin")
 		{
 			<h1 class="team-section-title">Добавить команду</h1>
-			<input id="searchTeams" name="searchString" type="text"/>
-			<button class="btn" id="searchButton" data-id="@e.Id" type="submit">Отправить</button>
+			<div class="input-group">
+				<input id="searchTeams" name="searchString" type="text"/>
+				<button class="btn" id="searchButton" data-id="@e.Id" type="submit">Отправить</button>
+			</div>
 			<div id="teamsPartial"></div>
 			<a asp-controller="Event" asp-action="AddMatch" asp-route-id="@e.Id">AddMatch</a>
 			<a asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id">ChangeEvent</a>
@@ -88,7 +90,6 @@
 		$('#searchButton').click(function () {
 			var id = parseInt($(this).data('id'));
 			var str = $('#searchTeams').val();
-
 			$.ajax({
 				url: '@Url.Action("SearchTeams", "Event")',
 				type: 'GET',
