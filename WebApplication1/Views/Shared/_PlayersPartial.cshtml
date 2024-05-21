@@ -1,25 +1,24 @@
-﻿@model WebApplication1.ViewModels.TeamsListViewModel;
-
+﻿@model WebApplication1.ViewModels.PlayersListViewModel;
 <head>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <link rel="stylesheet" href="~/css/teamslistpartial.css" />
 
 <body>
-	@if (Model.Teams != null && Model.Teams.Count != 0)
+	@if (Model.Players != null && Model.Players.Count != 0)
 	{
 		<div class="container">
-			@foreach (var team in Model.Teams)
+			@foreach (var player in Model.Players)
 			{
 				<div class="block">
 					<div class="image-container">
-						<img src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+						<img src="data:image /png;base64,@(Convert.ToBase64String(player.Image))" />
 					</div>
 					<div class="content">
-						<h3>@team.Name</h3>
+						<h3>@player.Nickname</h3>
 						<div class="buttons">
-							<button id="addButton" data-id="@Model.Id" data-teamid="@team.Id">Add</button>
-							<button id="deleteButton" class="remove" data-id="@Model.Id" data-teamid="@team.Id">Delete</button>
+							<button id="addButton" data-id="@player.Id" data-teamid="@Model.Id">Add</button>
+							<button id="deleteButton" class="remove" data-id="@player.Id" data-teamid="@Model.Id">Delete</button>
 						</div>
 					</div>
 				</div>
@@ -34,7 +33,7 @@
 			var id = $(this).data('id');
 			var teamId = $(this).data('teamid');
 			$.ajax({
-				url: '@Url.Action("AddTeam", "Event")',
+				url: '@Url.Action("AddPlayer", "Team")',
 				data: { id: id, teamId: teamId },
 				success: function (result) {
 					window.location.reload();
@@ -51,7 +50,7 @@
 			var id = $(this).data('id');
 			var teamId = $(this).data('teamid');
 			$.ajax({
-				url: '@Url.Action("DeleteTeam", "Event")',
+				url: '@Url.Action("DeletePlayer", "Team")',
 				data: { id: id, teamId: teamId },
 				success: function (result) {
 					window.location.reload();

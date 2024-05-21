@@ -135,8 +135,8 @@ namespace WebApplication1.Controllers
 						mathes.Add(mvmf);
 					}
 				}
-
 			}
+			mathes = mathes.OrderBy(x => x.Date).ToList();
 			ViewBag.CurrentEvent = curEvent;
 			ViewBag.CurrentTeams = teams;
 			ViewBag.CurrentMatches = mathes;
@@ -151,7 +151,7 @@ namespace WebApplication1.Controllers
 			TeamsListViewModel model = new TeamsListViewModel
 			{
 				Id = id,
-				teams = (await _teamService.SearchTeams(str)).ToList()
+				Teams = (await _teamService.SearchTeams(str)).ToList()
 			};
 			return PartialView("_TeamsPartial", model);
 		}

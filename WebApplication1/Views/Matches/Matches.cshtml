@@ -1,0 +1,38 @@
+﻿@model WebApplication1.ViewModels.MatchesPageViewModel
+@{
+	Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/matches.css" />
+<body>
+	<div class="match-container">
+		<table>
+			<tbody>
+				@foreach (var match in Model.Matches)
+				{
+					<tr>
+						<td>
+							@match.Date
+						</td>
+						<td>
+							<div>
+								<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(match.Team1.Image))" />
+								<br/>
+								<div class="image-container">@match.Team1.Name</div>
+							</div>
+						</td>
+						<td>
+							<div>
+								<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(match.Team2.Image))" />
+								<br/>
+								<div class="image-container">@match.Team2.Name</div>
+							</div>
+						</td>
+						<td>
+							<div>@match.EventName</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</body>

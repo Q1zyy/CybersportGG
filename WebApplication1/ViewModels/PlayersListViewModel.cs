@@ -2,12 +2,12 @@
 
 namespace WebApplication1.ViewModels
 {
-	public class TeamsListViewModel
+	public class PlayersListViewModel
 	{
 
 		public int Id { get; set; }
 
-		public List<Team> Teams = new List<Team>();
+		public List<Player> Players { get; set; }
 
 	}
 }

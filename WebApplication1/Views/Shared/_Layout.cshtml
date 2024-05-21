@@ -15,7 +15,7 @@
     <div class="navbar">
         <ul>
             <li><a asp-controller="News" asp-action="News">Новости</a></li>
-            <li><a href="#">Матчи</a></li>
+            <li><a asp-controller="Matches" asp-action="Matches">Матчи</a></li>
             <li><a href="#">Результаты</a></li>
             <li><a asp-controller="Event" asp-action="Events" >События</a></li>
             @if (User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin")

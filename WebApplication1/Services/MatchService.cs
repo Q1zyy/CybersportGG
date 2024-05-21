@@ -68,5 +68,10 @@ namespace WebApplication1.Services
 			m.Done = true;
 			await db.SaveChangesAsync();
         }
-    }
+
+		public async Task<IEnumerable<Match>> GetUpcomingMatches()
+		{
+			return await db.Matches.Where(m => !m.Done).ToListAsync();
+		}
+	}
 }

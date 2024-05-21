@@ -29,7 +29,7 @@
 							<td>
 								@match.Date
 							</td>
-							<td>
+							<td>	
 								<div>
 									<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(match.Team1.Image))" />
 									<br />
@@ -65,7 +65,9 @@
 			<div class="team-logos">
 				@foreach (var team in teams)
 				{
-					<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+					<a asp-controller="Team" asp-action="Team" asp-route-id="@team.Id">
+						<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+					</a>
 				}
 			</div>
 		</div>
@@ -78,8 +80,7 @@
 				<button class="btn" id="searchButton" data-id="@e.Id" type="submit">Отправить</button>
 			</div>
 			<div id="teamsPartial"></div>
-			<a asp-controller="Event" asp-action="AddMatch" asp-route-id="@e.Id">AddMatch</a>
-			<a asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id">ChangeEvent</a>
+			<button class="butn" id="addMatchBtn" onclick="location.href='@Url.Action("AddMatch","Event", new {id = e.Id})'">Добавить матч</button>
 		}
 	</div>
 </body>

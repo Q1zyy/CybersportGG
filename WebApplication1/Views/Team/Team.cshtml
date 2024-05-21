@@ -1,57 +1,65 @@
-﻿<a asp-controller="Home" asp-action="Index">Home</a>
-<br />
-@{
+﻿@{
     Layout = "_Layout"; 
 	var a = ViewBag.CurrentTeam;
 }
-<img src="data:image /png;base64,@(Convert.ToBase64String(a.Image))" />
-<p>
-	Nickname: @a.Name
-</p>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<link rel="stylesheet" href="~/css/team.css" />
+<link rel="stylesheet" href="~/css/event.css" />
+<body>
+	<div class="container">
+		<div class="gallery">
+			<div class="main-images">
+				<div>
+					<img src="data:image /png;base64,@(Convert.ToBase64String(a.Image))" />
+				</div>
+				<br />
+				<div class="image-caption">@a.Name</div>
+			</div>
 
-@if (ViewBag.CurrentPlayers != null)
-{
-	<ul>
-		<style>
-			li {
-				display: inline-block;
+			<div class="thumbnail-images">
+				@if (ViewBag.CurrentPlayers != null)
+				{
+					@foreach (var player in ViewBag.CurrentPlayers)
+					{
+						<div>
+							<a href="@Url.Action("Player", "Player", new { id = player.Id })">
+								<img src="data:image /png;base64,@(Convert.ToBase64String(player.Image))" />
+							</a>
+							<div class="image-caption">@player.Nickname</div>
+						</div>
+					}
+				}
+			</div>
+
+			@if (ViewBag.Role == "admin")
+			{
+				<h1 class="team-section-title">Добавить игрока</h1>
+				<div class="input-group">
+					<input id="searchPlayers" name="searchString" type="text" />
+					<button class="btn" id="searchButton" data-id="@a.Id" type="submit">Отправить</button>
+				</div>
+				<div id="playersPartial"></div>
+				<button class="butn" onclick="location.href='@Url.Action("Edit","Team", new {id = a.Id})'">Изменить команду</button>
 			}
-			img {
-				width: 150px;
-				height: 150px;
-			}
-		</style>
-		@foreach (var player in ViewBag.CurrentPlayers)
-		{
-			<li>
-				<a href="@Url.Action("Player", "Player", new { id = player.Id })">
-					<img src="data:image /png;base64,@(Convert.ToBase64String(player.Image))" />
-				</a>
-				<p>@player.Nickname</p>
-				<p>@player.Name</p>
-				<p>@player.Age</p>
-			</li>
-		}
-	</ul>
-}
-
-@if (ViewBag.Role == "admin")
-{
-	<a asp-controller="Team" asp-action="Edit" asp-route-id="@a.Id">Edit</a>
-	<form asp-controller="Team" asp-action="SearchPlayers" asp-route-id="@ViewBag.CurrentId" method="post">
-		<input name="searchString" type="text"/>
-		<button type="submit">Отправить</button>
-	</form>
-	var cur = ViewBag.Players;
-	if (ViewBag.Players != null)
-	{
-		@foreach (var player in ViewBag.Players)
-		{
-			<a>@player.Id @player.Name @player.Nickname</a>
-			<a asp-controller="Team" asp-action="AddPlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Add</a>
-			<a asp-controller="Team" asp-action="DeletePlayer" asp-route-id="@player.Id" asp-route-teamId="@a.Id" >Delete</a>
-			<br />
-		}
-	}
-
-}
+		</div>
+	</div>
+</body>
+								
+<script>
+	$(document).ready(function () {
+		$('#searchButton').click(function () {
+			var id = parseInt($(this).data('id'));
+			var str = $('#searchPlayers').val();
+			$.ajax({
+				url: '@Url.Action("SearchPlayers", "Team")',
+				type: 'GET',
+				data: { id: id, str: str},
+				success: function (result) {
+					$('#playersPartial').html(result);
+				}
+			});
+		});
+	});
+</script>

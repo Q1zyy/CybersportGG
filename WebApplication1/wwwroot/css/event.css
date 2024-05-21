@@ -7,7 +7,6 @@ body {
     z-index: 1;
 }
 
-/* Event container styles */
 .event-container {
     z-index: 1;
     background-color: #fff;
@@ -166,4 +165,21 @@ body {
 
     .input-group .btn:hover {
         background-color: #555;
+    }
+
+.butn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+    .butn button:hover {
+        background-color: #45a049;
     }

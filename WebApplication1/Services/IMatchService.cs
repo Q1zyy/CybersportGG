@@ -11,6 +11,8 @@ namespace WebApplication1.Services
 
 		public Task ChangeMatch(int id, Match match);
 
+		public Task<IEnumerable<Match>> GetUpcomingMatches();
+
 		public Task<IEnumerable<Match>> GetEventMatches(int id);
 
 		public Task<IEnumerable<Match>> GetUpcomingEventMatches(int id);
