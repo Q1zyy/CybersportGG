@@ -1,22 +1,96 @@
 ﻿@{
 	Layout = "_Layout";
 }
-<a asp-controller="Account" asp-action="Logout">Logout</a>
-<a asp-controller="Home" asp-action="Index">Index</a>
 
-@foreach (var user in ViewBag.Users)
-{
-	<a>@user.Username</a>
-	<a>@user.Role</a>
-	@if (user.Role != "admin")
-	{
-		if (user.Role == "writer")
-		{
-			<a asp-controller="Admin" asp-action="ChangeUserRole" asp-route-username="@user.Username" asp-route-newrole="user">Give User</a>
-		} else
-		{
-			<a asp-controller="Admin" asp-action="ChangeUserRole" asp-route-username="@user.Username" asp-route-newrole="writer">Give Writer</a>
-		}
-	}	
-	<br />
-}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 50px 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nickname-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .nickname-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+    .nickname-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .nickname {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .role {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+    }
+
+        .actions button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .actions button:hover {
+                background-color: #45a049;
+            }
+</style>
+
+<div class="container">
+    <h1>Пользователи</h1>
+    <ul class="nickname-list">
+        @foreach (var user in ViewBag.Users)
+        {
+            <li class="nickname-item">
+	            <div class="nickname-info">
+                    <span class="nickname">@user.Username</span>
+                    <span class="role">@user.Role</span>
+                </div>
+	            <div class="actions">
+                    @if (user.Role != "admin")
+	                {
+		                if (user.Role == "writer")
+		                {
+			                <a asp-controller="Admin" asp-action="ChangeUserRole" asp-route-username="@user.Username" asp-route-newrole="user">Забрать роль</a>
+		                } else
+		                {
+			                <a asp-controller="Admin" asp-action="ChangeUserRole" asp-route-username="@user.Username" asp-route-newrole="writer">Дать писателя</a>
+		                }
+	                }	
+                </div>
+            </li>
+        }
+    </ul>
+</div>

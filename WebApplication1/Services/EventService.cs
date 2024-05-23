@@ -95,5 +95,17 @@ namespace WebApplication1.Services
 			}
 			await db.SaveChangesAsync();
 		}
+
+		public async Task<IEnumerable<Event>> GetUpcomingEvents()
+		{
+			var cur = DateOnly.FromDateTime(DateTime.Now);
+			return await db.Events.Where(e => e.StartDate > cur).ToListAsync();
+		}
+
+		public async Task<IEnumerable<Event>> GetDoneEvents()
+		{
+			var cur = DateOnly.FromDateTime(DateTime.Now);
+			return await db.Events.Where(e => e.EndDate < cur).ToListAsync();
+		}
 	}
 }

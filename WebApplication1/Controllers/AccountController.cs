@@ -40,9 +40,10 @@ namespace WebApplication1.Controllers
 
             User user = await _userSevice.GetUser(model.Username);
 
-            if (user == null)
+            if (user == null || model.Password != user.Password)
             {
-                return View(model);
+				ModelState.AddModelError("", "Неправильный логин или пароль.");
+				return View(model);
             }
 
             var claims = new List<Claim>
@@ -55,7 +56,7 @@ namespace WebApplication1.Controllers
             await HttpContext.SignInAsync("Cookie", claimPrincipal);
 
             ViewBag.Role = user.Role;
-            return Redirect("/Home/Index");
+            return Redirect("/news");
         }
 
         [HttpPost]
@@ -78,7 +79,7 @@ namespace WebApplication1.Controllers
 
             }
 
-            
+            ModelState.AddModelError("", "Такой логин есть.");
             return View(model); 
         }
 
@@ -92,7 +93,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync("Cookie");
-            return Redirect("/Home/Index");
+            return Redirect("/News/News");
         }
 
     }

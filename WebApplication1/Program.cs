@@ -14,9 +14,9 @@ builder.Services.AddTransient<INewsService, NewsService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ITeamService, TeamService>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
+builder.Services.AddTransient<IResultService, ResultService>();
 builder.Services.AddTransient<IEventService, EventService>();
 builder.Services.AddTransient<IMatchService, MatchService>();
-builder.Services.AddTransient<IResultService, ResultService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication("Cookie")
@@ -48,6 +48,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}");
+    pattern: "{controller=News}/{action=News}");
 
 app.Run();

@@ -3,7 +3,7 @@
 	public class ResultsPageViewModel
 	{
 
-
+		public List<ResultPageViewModel> Results { get; set; }
 
 	}
 }

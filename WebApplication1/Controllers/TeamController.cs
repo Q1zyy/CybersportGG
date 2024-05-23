@@ -131,15 +131,18 @@ namespace WebApplication1.Controllers
 		{
 			var player = await _playerService.GetPlayer(id);
 			var team = await _teamService.GetTeam(teamId);
-			await _teamService.DeletePlayer(teamId, id);
-			await _playerService.ChangePlayer(new Player
+			if (player.TeamId == teamId)
 			{
-				TeamId = 0,
-				Id = id,
-				Nickname = player.Nickname,
-				Name = player.Name,
-				Age = player.Age
-			});
+				await _teamService.DeletePlayer(teamId, id);
+				await _playerService.ChangePlayer(new Player
+				{
+					TeamId = 0,
+					Id = id,
+					Nickname = player.Nickname,
+					Name = player.Name,
+					Age = player.Age
+				});
+			}
 			return Redirect(teamId.ToString());
 		}
 

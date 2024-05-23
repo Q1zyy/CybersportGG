@@ -5,14 +5,34 @@
     Layout = "_Layout"; 
     var m = ViewBag.CurrentMatch;
 }
+<style>
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
 
-<form asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@m.Id" method="post">
-    <div>
-        <label>Score:</label>
-        <input asp-for="Score" />
-    </div>
-    <div>
-        @Html.DropDownListFor(m => m.Winner, Model.Options, "Choose team1")
-    </div>
-    <button type="submit">Закончить матч</button>
-</form>
+    input[type="file"],
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
+<link rel="stylesheet" href="~/css/creatematch.css" />
+<div class="container">
+    <h1>Завершение матча</h1>
+    <form asp-controller="Event" asp-action="ConfirmMatch" asp-route-id="@m.Id" method="post">
+        <div>
+            <label>Счёт:</label>
+            <input asp-for="Score" />
+        </div>
+        <div class="dropdown">
+            @Html.DropDownListFor(m => m.Winner, Model.Options, "Выберите победителя", new { @class = "dropdown-btn", required = "required" })
+        </div>
+        <button class="submit-btn" type="submit">Закончить матч</button>
+    </form>
+</div>

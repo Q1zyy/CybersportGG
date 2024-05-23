@@ -7,12 +7,10 @@ namespace WebApplication1.Services
 	{
 
 		private ApplicationDbContext db;
-		private readonly IResultService _resultService;
 
-		public MatchService(ApplicationDbContext context, IResultService resultService)
+		public MatchService(ApplicationDbContext context)
 		{
 			db = context;
-			_resultService = resultService;
 		}
 
 		public async Task<Match> AddMatch(Match match)
@@ -72,6 +70,11 @@ namespace WebApplication1.Services
 		public async Task<IEnumerable<Match>> GetUpcomingMatches()
 		{
 			return await db.Matches.Where(m => !m.Done).ToListAsync();
+		}
+
+		public async Task<IEnumerable<Match>> GetDoneTeamMatches(int teamId)
+		{
+			return await db.Matches.Where(m => m.Done && (m.Team1 == teamId || m.Team2 == teamId)).ToListAsync();
 		}
 	}
 }

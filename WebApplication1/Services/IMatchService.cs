@@ -21,5 +21,7 @@ namespace WebApplication1.Services
 
 		public Task CompleteMatch(int id);
 
+		public Task<IEnumerable<Match>> GetDoneTeamMatches(int teamId);
+
 	}
 }

@@ -32,7 +32,7 @@
 					}
 				}
 			</div>
-
+			<button class="butn" onclick="location.href='@Url.Action("Results","Results", new {teamId = a.Id})'">Результаты</button>
 			@if (ViewBag.Role == "admin")
 			{
 				<h1 class="team-section-title">Добавить игрока</h1>

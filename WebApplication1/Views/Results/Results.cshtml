@@ -1,4 +1,4 @@
-﻿@model WebApplication1.ViewModels.MatchesPageViewModel
+﻿@model WebApplication1.ViewModels.ResultsPageViewModel
 @{
 	Layout = "_Layout";
 }
@@ -7,7 +7,7 @@
 	<div class="match-container">
 		<table>
 			<tbody>
-				@foreach (var match in Model.Matches)
+				@foreach (var match in Model.Results)
 				{
 					<tr>
 						<td>
@@ -16,19 +16,32 @@
 						<td>
 							<div>
 								<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(match.Team1.Image))" />
-								<br/>
+								<br />
 								<div class="image-container">@match.Team1.Name</div>
+							</div>
+						</td>
+						<td>
+							@{
+								string Score = match.Score;
+								if (match.Team1.Id != match.Winner)
+								{
+									var a = match.Score.Split(':');
+									Score = a[1] + ':' + a[0];
+								}
+							}
+							<div>
+								<p>@Score</p>
 							</div>
 						</td>
 						<td>
 							<div>
 								<img class="team-logo" src="data:image /png;base64,@(Convert.ToBase64String(match.Team2.Image))" />
-								<br/>
+								<br />
 								<div class="image-container">@match.Team2.Name</div>
 							</div>
 						</td>
 						<td>
-							<div>@match.EventName.Name</div>
+							<div>@match.Event.Name</div>
 						</td>
 					</tr>
 				}

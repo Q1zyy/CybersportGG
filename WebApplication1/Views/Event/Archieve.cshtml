@@ -2,38 +2,15 @@
 @{
 	Layout = "_Layout";
 	var events = ViewBag.Events;
-	var up_events = ViewBag.UpcomingEvents;
 }
 <link rel="stylesheet" href="~/css/events.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <body>
 	<div class="title-container">
-		<h1>Текущие События</h1>
+		<h1>Законченные События</h1>
 	</div>
 	<ul class="photo-list">
 		@foreach (var e in events)
-		{
-			<li class="photo-item">
-				<img src="data:image /png;base64,@(Convert.ToBase64String(e.Image))" />
-				<div class="details"> 
-					<p class="title"><a href="/event/@e.Id">@e.Name</a></p>
-					<p class="date">Начало: @e.StartDate</p>
-					<p class="date">Конец: @e.EndDate</p>
-				</div>
-				@if (User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin") {
-					<div class="item-actions">
-						<a asp-asp-controller="Event" asp-action="DeleteEvent" asp-route-id="@e.Id"><i class="fas fa-trash"></i></a>
-						<a asp-asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id"><i class="fas fa-edit"></i></a>
-					</div>
-				}
-			</li>
-		}
-	</ul>
-	<div class="title-container">
-		<h1>Будущие События</h1>
-	</div>
-	<ul class="photo-list">
-		@foreach (var e in up_events)
 		{
 			<li class="photo-item">
 				<img src="data:image /png;base64,@(Convert.ToBase64String(e.Image))" />

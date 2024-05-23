@@ -35,17 +35,9 @@ namespace WebApplication1.Controllers
 				matchesFull.Add(new MatchPageViewModel
 				{
 					Date = match.Date,
-					Team1 = new TeamImageNameViewModel
-					{
-						Image = team1.Image,
-						Name = team1.Name
-					},
-					Team2 = new TeamImageNameViewModel
-					{
-						Image = team2.Image,
-						Name = team2.Name
-					},
-					EventName = (await _eventService.GetEvent(match.EventId)).Name
+					Team1 = team1,
+					Team2 = team2,
+					EventName = await _eventService.GetEvent(match.EventId)
 				}) ;
 			}
 			viewModel.Matches = matchesFull;

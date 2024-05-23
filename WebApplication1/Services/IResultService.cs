@@ -9,7 +9,9 @@ namespace WebApplication1.Services
 
 		public Task<Result> GetResult(int id);
 
+		public Task<IEnumerable<Result>> GetResults();
 
+		public Task<IEnumerable<Result>> GetTeamResults(int teamId);
 
 	}
 }

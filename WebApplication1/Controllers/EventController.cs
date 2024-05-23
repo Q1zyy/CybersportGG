@@ -103,7 +103,18 @@ namespace WebApplication1.Controllers
 			var events = await _eventService.GetOngoingEvents();
 			ViewBag.Events = events;
 			ViewBag.Role = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
+			var up_events = await _eventService.GetUpcomingEvents();
+			ViewBag.UpcomingEvents = up_events;
 			return View();
+		}
+
+		[HttpGet("/events/archieve")]
+		public async Task<IActionResult> EventsArchieve()
+		{
+			var events = await _eventService.GetDoneEvents();
+			ViewBag.Events = events;
+			ViewBag.Role = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
+			return View("Archieve");
 		}
 
 

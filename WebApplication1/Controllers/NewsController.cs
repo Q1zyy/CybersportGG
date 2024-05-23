@@ -22,7 +22,6 @@ namespace WebApplication1.Controllers
 			_newsService = newsService;
 		}
 
-		[Route("/news")]
 		[HttpGet]
 		public async Task<IActionResult> News()
 		{

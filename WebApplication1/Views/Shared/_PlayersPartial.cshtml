@@ -17,8 +17,8 @@
 					<div class="content">
 						<h3>@player.Nickname</h3>
 						<div class="buttons">
-							<button id="addButton" data-id="@player.Id" data-teamid="@Model.Id">Add</button>
-							<button id="deleteButton" class="remove" data-id="@player.Id" data-teamid="@Model.Id">Delete</button>
+							<button class="addButton" data-id="@player.Id" data-teamid="@Model.Id">Add</button>
+							<button class="remove" data-id="@player.Id" data-teamid="@Model.Id">Delete</button>
 						</div>
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 
 <script>
 	$(document).ready(function () {
-		$('#addButton').click(function () {
+		$('.addButton').click(function () {
 			var id = $(this).data('id');
 			var teamId = $(this).data('teamid');
 			$.ajax({
@@ -46,7 +46,7 @@
 
 <script>
 	$(document).ready(function () {
-		$('#deleteButton').click(function () {
+		$('.remove').click(function () {
 			var id = $(this).data('id');
 			var teamId = $(this).data('teamid');
 			$.ajax({
