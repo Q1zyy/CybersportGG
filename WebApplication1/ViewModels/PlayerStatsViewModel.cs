@@ -1,11 +1,12 @@
-﻿using WebApplication1.Models;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using WebApplication1.Models;
 
 namespace WebApplication1.ViewModels
 {
     public class PlayerStatsViewModel
     {
 
-        public Player Player { get; set; } 
+        public Player Player { get; set; }
 
         public int Kills { get; set; }
 
