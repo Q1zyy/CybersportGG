@@ -324,30 +324,26 @@ namespace WebApplication1.Controllers
             };
 			ViewBag.CurrentMatch = match;
 			var model = new ResultViewModel();
-			List<PlayerStatsViewModel> team1 = new List<PlayerStatsViewModel>();
-			List<PlayerStatsViewModel> team2 = new List<PlayerStatsViewModel>();
+			model.Players1 = new List<PlayerStatsViewModel>();
+			model.Players2 = new List<PlayerStatsViewModel>();
 			foreach (var playerId in t1.PlayersID)
 			{
-				var player = await _playerService.GetPlayer(playerId);
-				team1.Add(
+                model.Players1.Add(
 					new PlayerStatsViewModel
 					{
-						Player = player
-					}
+						Player = await _playerService.GetPlayer(playerId)
+                    }
 				);
 			}		
 			foreach (var playerId in t2.PlayersID)
 			{
-				var player = await _playerService.GetPlayer(playerId);
-				team2.Add(
+                model.Players2.Add(
 					new PlayerStatsViewModel
 					{
-						Player = player
+						Player = await _playerService.GetPlayer(playerId)
 					}
 				);
 			}
-			model.Players1 = team1;
-			model.Players2 = team2;
             model.Options = options;
 			return View(model);
 		}		

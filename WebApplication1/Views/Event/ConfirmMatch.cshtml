@@ -36,14 +36,15 @@
         <table>
             <thead>
                 <tr>
-                    <th>Player Name</th>
-                    <th>Kills</th>
-                    <th>Deaths</th>
-                    <th>Assists</th>
-                    <th>Headshots</th>
+                    <th>Ник</th>
+                    <th>Килы</th>
+                    <th>Смерти</th>
+                    <th>Помощи</th>
+                    <th>Хэдшоты</th>
                 </tr>
             </thead>
             <tbody>
+ @*
                 @foreach (var player in Model.Players1)
                 {
                     <tr>
@@ -54,6 +55,37 @@
                         <td><input type="number" asp-for="@player.Headshots" /></td>
                     </tr>
                 }
+                @foreach (var player in Model.Players2)
+                {
+                    <tr>
+                        <td>@player.Player.Nickname</td>
+                        <td><input type="number" asp-for="@player.Kills" /></td>
+                        <td><input type="number" asp-for="@player.Deaths" /></td>
+                        <td><input type="number" asp-for="@player.Assists" /></td>
+                        <td><input type="number" asp-for="@player.Headshots" /></td>
+                    </tr>
+                }
+ *@
+            @for (int i = 0; i < Model.Players1.Count; i++)
+            {
+                <tr>
+                    <td>@Model.Players1[i].Player.Nickname</td>
+                    <td><input type="number" asp-for="Players1[i].Kills" /></td>
+                    <td><input type="number" asp-for="Players1[i].Deaths" /></td>
+                    <td><input type="number" asp-for="Players1[i].Assists" /></td>
+                    <td><input type="number" asp-for="Players1[i].Headshots" /></td>
+                </tr>
+            }
+            @for (int i = 0; i < Model.Players2.Count; i++)
+            {
+                <tr>
+                    <td>@Model.Players2[i].Player.Nickname</td>
+                    <td><input type="number" asp-for="Players2[i].Kills" /></td>
+                    <td><input type="number" asp-for="Players2[i].Deaths" /></td>
+                    <td><input type="number" asp-for="Players2[i].Assists" /></td>
+                    <td><input type="number" asp-for="Players2[i].Headshots" /></td>
+                </tr>
+            }
             </tbody>
         </table>
         <button class="submit-btn" type="submit">Закончить матч</button>
