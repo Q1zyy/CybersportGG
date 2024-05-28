@@ -67,6 +67,18 @@ namespace WebApplication1.Controllers
                 return View(model);
             }
 
+            if (string.IsNullOrEmpty(model.Password)
+                || model.Password.Length < 8
+                || !HasUppercase(model.Password)
+                || !HasLowercase(model.Password)
+                || !HasDigit(model.Password))
+            {
+                ModelState.AddModelError("", "Пароль должен" +
+                    " быть длиной минимум 8 символов и содержать минимум одну заглавную букву," +
+                    " одну строчную букву и одну цифру.");
+                return View(model);
+            }
+
             if (!(await _userSevice.HaveUser(model.Username)))
             {
                 await _userSevice.AddUser(new Models.User()
@@ -75,6 +87,7 @@ namespace WebApplication1.Controllers
                     Password = model.Password,
                     Role = "user"
                 });
+                TempData["SuccessMessage"] = "Вы успешно зарегистрированы.";
                 return RedirectToAction("Login", "Account");
 
             }
@@ -94,6 +107,21 @@ namespace WebApplication1.Controllers
         {
             await HttpContext.SignOutAsync("Cookie");
             return Redirect("/News/News");
+        }
+
+        private bool HasUppercase(string password)
+        {
+            return password.Any(char.IsUpper);
+        }
+
+        private bool HasLowercase(string password)
+        {
+            return password.Any(char.IsLower);
+        }
+
+        private bool HasDigit(string password)
+        {
+            return password.Any(char.IsDigit);
         }
 
     }
