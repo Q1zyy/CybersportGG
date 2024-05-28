@@ -17,17 +17,20 @@ namespace WebApplication1.Controllers
 		private readonly ITeamService _teamService;
 		private readonly IMatchService _matchService;
 		private readonly IResultService _resultService;
+		private readonly IPlayerService _playerService;
 		public EventController(
 			IEventService eventService,
 			ITeamService teamService,
 			IMatchService matchService,
-			IResultService resultService
+			IResultService resultService,
+			IPlayerService playerService 
 		)
 		{
 			_eventService = eventService;
 			_teamService = teamService;
 			_matchService = matchService;
 			_resultService = resultService;
+			_playerService = playerService;
 		}
 
 		[HttpGet]
@@ -306,19 +309,45 @@ namespace WebApplication1.Controllers
 			var match = await _matchService.GetMatch(id);
 			var t1 = await _teamService.GetTeam(match.Team1);
 			var t2 = await _teamService.GetTeam(match.Team2);
-			var options = new List<SelectListItem>();
-			options.Add(new SelectListItem
-			{
-				Text = t1.Name,
-				Value = t1.Name
-			});
-			options.Add(new SelectListItem
-			{
-				Text = t2.Name,
-				Value = t2.Name
-			});
+			var options = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = t1.Name,
+                    Value = t1.Name
+                },
+                new SelectListItem
+                {
+                    Text = t2.Name,
+                    Value = t2.Name
+                }
+            };
 			ViewBag.CurrentMatch = match;
 			var model = new ResultViewModel();
+			List<PlayerStatsViewModel> team1 = new List<PlayerStatsViewModel>();
+			List<PlayerStatsViewModel> team2 = new List<PlayerStatsViewModel>();
+			foreach (var playerId in t1.PlayersID)
+			{
+				var player = await _playerService.GetPlayer(playerId);
+				team1.Add(
+					new PlayerStatsViewModel
+					{
+						Player = player
+					}
+				);
+			}		
+			foreach (var playerId in t2.PlayersID)
+			{
+				var player = await _playerService.GetPlayer(playerId);
+				team2.Add(
+					new PlayerStatsViewModel
+					{
+						Player = player
+					}
+				);
+			}
+			model.Players1 = team1;
+			model.Players2 = team2;
             model.Options = options;
 			return View(model);
 		}		

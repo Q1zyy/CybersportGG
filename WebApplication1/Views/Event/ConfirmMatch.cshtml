@@ -33,6 +33,29 @@
         <div class="dropdown">
             @Html.DropDownListFor(m => m.Winner, Model.Options, "Выберите победителя", new { @class = "dropdown-btn", required = "required" })
         </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Kills</th>
+                    <th>Deaths</th>
+                    <th>Assists</th>
+                    <th>Headshots</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var player in Model.Players1)
+                {
+                    <tr>
+                        <td>@player.Player.Nickname</td>
+                        <td><input type="number" asp-for="@player.Kills" /></td>
+                        <td><input type="number" asp-for="@player.Deaths" /></td>
+                        <td><input type="number" asp-for="@player.Assists" /></td>
+                        <td><input type="number" asp-for="@player.Headshots" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
         <button class="submit-btn" type="submit">Закончить матч</button>
     </form>
 </div>
