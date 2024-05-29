@@ -7,6 +7,8 @@ using System.Security.Claims;
 using WebApplication1.Models;
 using WebApplication1.Services;
 using WebApplication1.ViewModels;
+using WebApplication1.Extensions;
+using System.Collections.Generic;
 
 namespace WebApplication1.Controllers
 {
@@ -306,6 +308,11 @@ namespace WebApplication1.Controllers
         [Authorize(Policy = "admin")]
         public async Task<IActionResult> ConfirmMatch(int id)
 		{
+
+			
+
+
+
 			var match = await _matchService.GetMatch(id);
 			var t1 = await _teamService.GetTeam(match.Team1);
 			var t2 = await _teamService.GetTeam(match.Team2);
@@ -324,8 +331,10 @@ namespace WebApplication1.Controllers
             };
 			ViewBag.CurrentMatch = match;
 			var model = new ResultViewModel();
-			model.Players1 = new List<PlayerStatsViewModel>();
-			model.Players2 = new List<PlayerStatsViewModel>();
+			var players1 = new List<PlayerStatsViewModel>();
+			var players2 = new List<PlayerStatsViewModel>();
+			model.Players1 = players1;
+			model.Players2 = players2;
 			foreach (var playerId in t1.PlayersID)
 			{
                 model.Players1.Add(
@@ -345,6 +354,8 @@ namespace WebApplication1.Controllers
 				);
 			}
             model.Options = options;
+			HttpContext.Session.Save("Players1", players1);
+			HttpContext.Session.Save("Players2", players2);
 			return View(model);
 		}		
 		
@@ -352,6 +363,8 @@ namespace WebApplication1.Controllers
         [Authorize(Policy = "admin")]
         public async Task<IActionResult> ConfirmMatch(int id, ResultViewModel model)
 		{
+			var players1 = HttpContext.Session.Read<List<PlayerStatsViewModel>>("Players1");
+			var players2 = HttpContext.Session.Read<List<PlayerStatsViewModel>>("Players2");
 			var team = await _teamService.GetTeamByName(model.Winner);
 			await _matchService.CompleteMatch(id);
 			var m = await _matchService.GetMatch(id);
@@ -363,8 +376,6 @@ namespace WebApplication1.Controllers
 			});
 			return Redirect(m.EventId.ToString());
 		}
-
-
 
 	}
 }

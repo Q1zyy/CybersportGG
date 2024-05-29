@@ -38,11 +38,15 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddDistributedMemoryCache()
+    .AddSession();
+
 
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 
 //app.MapGet("/", (ApplicationDbContext db) => db.Users.ToList());
 
