@@ -366,6 +366,11 @@ namespace WebApplication1.Controllers
 			var players1 = HttpContext.Session.Read<List<PlayerStatsViewModel>>("Players1");
 			var players2 = HttpContext.Session.Read<List<PlayerStatsViewModel>>("Players2");
 			var team = await _teamService.GetTeamByName(model.Winner);
+			for (var i = 0; i < players1.Count; i++)
+			{
+				model.Players1[i].Player = players1[i].Player;
+				model.Players2[i].Player = players2[i].Player;
+			}
 			await _matchService.CompleteMatch(id);
 			var m = await _matchService.GetMatch(id);
 			await _resultService.AddResult(new Result
@@ -374,6 +379,7 @@ namespace WebApplication1.Controllers
 				Score = model.Score,
 				Winner = team.Id 
 			});
+
 			return Redirect(m.EventId.ToString());
 		}
 

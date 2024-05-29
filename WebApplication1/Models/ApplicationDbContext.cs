@@ -20,6 +20,10 @@ namespace WebApplication1.Models
 
 		public DbSet<Result> Results { get; set; }
 
+		public DbSet<PlayerStats> PlayerStats { get; set; }
+		
+		public DbSet<MatchStats> MatchesStats { get; set; }
+
 		
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{

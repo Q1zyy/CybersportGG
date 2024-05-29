@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Models;
 
@@ -11,9 +12,11 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529112306_StatsAdded")]
+    partial class StatsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Event", b =>
@@ -78,7 +81,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Match", b =>
@@ -106,7 +109,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Matches", (string)null);
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.MatchStats", b =>
@@ -122,7 +125,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MatchesStats", (string)null);
+                    b.ToTable("MatchesStats");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.News", b =>
@@ -153,7 +156,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("News", (string)null);
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Player", b =>
@@ -184,7 +187,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.PlayerStats", b =>
@@ -217,7 +220,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("MatchStatsId");
 
-                    b.ToTable("PlayerStats", (string)null);
+                    b.ToTable("PlayerStats");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Result", b =>
@@ -240,7 +243,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Results", (string)null);
+                    b.ToTable("Results");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Team", b =>
@@ -265,7 +268,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams", (string)null);
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.User", b =>
@@ -290,7 +293,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.PlayerStats", b =>
