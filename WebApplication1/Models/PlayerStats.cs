@@ -5,15 +5,15 @@
 
         public int Id { get; set; }
 
-        public int PlayerId { get; set; }
+        public int PlayerId { get; set; } = 0;
 
-        public int Kills { get; set; }
+        public int Kills { get; set; } = 0;
 
-        public int Deaths { get; set; }
+        public int Deaths { get; set; } = 0;
 
-        public int Assists { get; set; }
+        public int Assists { get; set; } = 0;
 
-        public int Headshots { get; set; }
+        public int Headshots { get; set; } = 0;
 
     }
 }

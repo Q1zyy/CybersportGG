@@ -43,7 +43,12 @@ namespace WebApplication1.Services
 			return await db.Players.FirstOrDefaultAsync(p => p.Id == id);
 		}
 
-		public async Task<IEnumerable<Player>> Search(string s)
+        public async Task<PlayerStats> GetPlayerStats(int id)
+        {
+            return await db.PlayerStats.FirstOrDefaultAsync(p => p.PlayerId == id);
+        }
+
+        public async Task<IEnumerable<Player>> Search(string s)
 		{
 			return await db.Players.Where(p => p.Nickname.Contains(s)).ToListAsync();
 		}

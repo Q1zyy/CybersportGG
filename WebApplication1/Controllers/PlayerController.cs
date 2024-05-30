@@ -85,10 +85,17 @@ namespace WebApplication1.Controllers
 		[HttpGet("/player/{id:int}")]
 		public async Task<IActionResult> Player(int id)
 		{
+			var model = new PlayerPageViewModel();
 			Player curPlayer = await _playerService.GetPlayer(id);
 			ViewBag.CurrentPlayer = curPlayer;
 			ViewBag.Role = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
-			return View("Player");
+			var stats = await _playerService.GetPlayerStats(id);
+			if (stats == null)
+			{
+				stats = new PlayerStats();
+			}
+			model.Stats = stats;
+			return View("Player", model);
 		}
 
 	}

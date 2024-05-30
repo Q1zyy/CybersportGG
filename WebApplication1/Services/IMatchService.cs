@@ -1,4 +1,5 @@
 ﻿using WebApplication1.Models;
+using WebApplication1.ViewModels;
 
 namespace WebApplication1.Services
 {
@@ -22,6 +23,8 @@ namespace WebApplication1.Services
 		public Task CompleteMatch(int id);
 
 		public Task<IEnumerable<Match>> GetDoneTeamMatches(int teamId);
+
+		public Task WriteStats(int id, List<PlayerStatsViewModel> playerStats);
 
 	}
 }

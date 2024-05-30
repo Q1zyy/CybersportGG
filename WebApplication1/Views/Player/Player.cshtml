@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WebApplication1.ViewModels.PlayerPageViewModel
+@{
 	Layout = "_Layout";
 	var a = ViewBag.CurrentPlayer;
 }
@@ -38,6 +39,24 @@
 				Возраст: @a.Age
 			</p>
 		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Убийства</th>
+					<th>Смерти</th>
+					<th>Помощи</th>
+					<th>Хедшоты</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>@Model.Stats.Kills</td>
+					<td>@Model.Stats.Deaths</td>
+					<td>@Model.Stats.Assists</td>
+					<td>@Model.Stats.Headshots</td>
+				</tr>
+			</tbody>
+		</table>
 		@if (ViewBag.Role == "admin")
 		{
 			<a asp-controller="Player" asp-action="Edit" asp-route-id="@a.Id" >Edit</a>

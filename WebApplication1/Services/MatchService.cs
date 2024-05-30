@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
+using WebApplication1.ViewModels;
 
 namespace WebApplication1.Services
 {
@@ -76,5 +77,41 @@ namespace WebApplication1.Services
 		{
 			return await db.Matches.Where(m => m.Done && (m.Team1 == teamId || m.Team2 == teamId)).ToListAsync();
 		}
-	}
+
+        public async Task WriteStats(int id, List<PlayerStatsViewModel> playerStats)
+        {
+            foreach (var item in playerStats)
+			{
+				var playerStat = db.PlayerMatchesStats.Add(new PlayerMatchesStats
+				{
+					PlayerId = item.Player.Id,
+					MatchId = id,
+					Kills = item.Kills,
+					Deaths = item.Deaths,
+					Assists = item.Assists,
+					Headshots = item.Headshots
+				});
+				var player = await db.PlayerStats.FirstOrDefaultAsync(p => p.PlayerId == item.Player.Id);
+				if (player == null)
+				{
+					db.PlayerStats.Add(new PlayerStats
+					{
+						PlayerId = item.Player.Id,
+						Kills= item.Kills,
+						Deaths= item.Deaths,
+						Assists = item.Assists,
+						Headshots = item.Headshots
+					});
+				} else
+				{
+					player.Kills += item.Kills;
+					player.Deaths += item.Deaths;
+					player.Assists += item.Assists;
+					player.Headshots += item.Headshots;
+				}
+
+			}
+			await db.SaveChangesAsync();
+        }
+    }
 }

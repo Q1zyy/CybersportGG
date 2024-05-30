@@ -308,11 +308,6 @@ namespace WebApplication1.Controllers
         [Authorize(Policy = "admin")]
         public async Task<IActionResult> ConfirmMatch(int id)
 		{
-
-			
-
-
-
 			var match = await _matchService.GetMatch(id);
 			var t1 = await _teamService.GetTeam(match.Team1);
 			var t2 = await _teamService.GetTeam(match.Team2);
@@ -371,14 +366,17 @@ namespace WebApplication1.Controllers
 				model.Players1[i].Player = players1[i].Player;
 				model.Players2[i].Player = players2[i].Player;
 			}
-			await _matchService.CompleteMatch(id);
 			var m = await _matchService.GetMatch(id);
+			/*await _matchService.CompleteMatch(id);
 			await _resultService.AddResult(new Result
 			{
 				MatchId = id,
 				Score = model.Score,
 				Winner = team.Id 
 			});
+			*/
+			await _matchService.WriteStats(id, model.Players1);
+			await _matchService.WriteStats(id, model.Players2);
 
 			return Redirect(m.EventId.ToString());
 		}
