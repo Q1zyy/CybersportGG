@@ -19,5 +19,7 @@ namespace WebApplication1.ViewModels
 
 		public DateTime Date { get; set; }
 
+		public List<PlayerStatsViewModel> PlayerStats { get; set; }
+
 	}
 }

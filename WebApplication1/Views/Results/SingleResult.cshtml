@@ -1,0 +1,58 @@
+﻿@model WebApplication1.ViewModels.ResultPageViewModel
+@{
+    Layout = "_Layout";
+    var score = Model.Score;
+    if (Model.Winner == Model.Team2.Id)
+    {
+        var p = score.Split(":");
+        score = p[1] + ':' + p[0];
+    }
+}
+<link rel="stylesheet" href="~/css/singleresult.css" />
+<body>
+    <div class="container">
+        <header>
+            <h1>Матч</h1>
+            <p class="date">@Model.Date</p>
+        </header>
+        <div class="date-container">
+            <div class="date-image">
+                <a asp-controller="Team" asp-action="Team" asp-route-id="@Model.Team1.Id">
+                    <img src="data:image /png;base64,@(Convert.ToBase64String(Model.Team1.Image))" />
+                </a>
+                <p>@Model.Team1.Name</p>
+                 <p>@score.Split(':')[0]</p>
+            </div>
+            <div class="date-image">
+                <a asp-controller="Team" asp-action="Team" asp-route-id="@Model.Team2.Id">
+                    <img src="data:image /png;base64,@(Convert.ToBase64String(Model.Team2.Image))" />
+                </a>
+                <p>@Model.Team2.Name</p>
+                <p>@score.Split(":")[1]</p>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ник</th>
+                    <th>Килы</th>
+                    <th>Смерти</th>
+                    <th>Помощи</th>
+                    <th>Хэдшоты</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.PlayerStats)
+                {
+                    <tr>
+                        <td><a asp-controller="Player" asp-action="Player" asp-route-id="@p.Player.Id">@p.Player.Nickname</a></td>
+                        <td>@p.Kills</td>
+                        <td>@p.Deaths</td>
+                        <td>@p.Assists</td>
+                        <td>@p.Headshots</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>

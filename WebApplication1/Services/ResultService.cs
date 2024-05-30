@@ -21,9 +21,9 @@ namespace WebApplication1.Services
             await db.SaveChangesAsync();
         }
 
-        public Task<Result> GetResult(int id)
+        public async Task<Result> GetResult(int id)
         {
-            throw new NotImplementedException();
+            return await db.Results.FirstOrDefaultAsync(x => x.MatchId == id);
         }
 
 		public async Task<IEnumerable<Result>> GetResults()

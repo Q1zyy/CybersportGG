@@ -367,14 +367,13 @@ namespace WebApplication1.Controllers
 				model.Players2[i].Player = players2[i].Player;
 			}
 			var m = await _matchService.GetMatch(id);
-			/*await _matchService.CompleteMatch(id);
+			await _matchService.CompleteMatch(id);
 			await _resultService.AddResult(new Result
 			{
 				MatchId = id,
 				Score = model.Score,
 				Winner = team.Id 
 			});
-			*/
 			await _matchService.WriteStats(id, model.Players1);
 			await _matchService.WriteStats(id, model.Players2);
 

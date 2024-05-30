@@ -26,5 +26,7 @@ namespace WebApplication1.Services
 
 		public Task WriteStats(int id, List<PlayerStatsViewModel> playerStats);
 
+		public Task<IEnumerable<PlayerMatchesStats>> GetMatchesStats(int id);
+
 	}
 }

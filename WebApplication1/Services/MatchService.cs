@@ -113,5 +113,10 @@ namespace WebApplication1.Services
 			}
 			await db.SaveChangesAsync();
         }
-    }
+
+		public async Task<IEnumerable<PlayerMatchesStats>> GetMatchesStats(int id)
+		{
+			return await db.PlayerMatchesStats.Where(pms => pms.MatchId == id).ToListAsync();
+		}
+	}
 }
