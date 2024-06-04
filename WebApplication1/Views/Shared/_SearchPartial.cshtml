@@ -1,0 +1,52 @@
+﻿@model WebApplication1.ViewModels.SearchViewModel
+<link rel="stylesheet" href="~/css/searchpartial.css" />
+
+<body>
+	<main class="team-container">
+		@if (Model.Players.Count > 0)
+		{
+			<h1>Игроки</h1>
+			@foreach (var player in Model.Players)
+			{
+				<div class="team-member">
+					<div class="team-photo-container">
+						<img class="team-photo" src="data:image /png;base64,@(Convert.ToBase64String(player.Image))" />
+					</div>
+					<div class="team-info">
+						<h3><a asp-controller="Player" asp-action="Player" asp-route-id="@player.Id">@player.Nickname</a></h3>
+					</div>
+				</div>
+			}
+		}
+		@if (Model.Teams.Count > 0)
+		{
+			<h1>Команды</h1>
+			@foreach (var team in Model.Teams)
+			{
+				<div class="team-member">
+					<div class="team-photo-container">
+						<img class="team-photo" src="data:image /png;base64,@(Convert.ToBase64String(team.Image))" />
+					</div>
+					<div class="team-info">
+						<h3><a asp-controller="Team" asp-action="Team" asp-route-id="@team.Id">@team.Name</a></h3>
+					</div>
+				</div>
+			}
+		}
+		@if (Model.Events.Count > 0)
+		{
+			<h1>События</h1>
+				@foreach (var ev in Model.Events)
+				{
+					<div class="team-member">
+						<div class="team-photo-container">
+							<img class="team-photo" src="data:image /png;base64,@(Convert.ToBase64String(ev.Image))" />
+						</div>
+						<div class="team-info">
+							<h3><a asp-controller="Event" asp-action="Event" asp-route-id="@ev.Id">@ev.Name</a></h3>
+						</div>
+					</div>
+				}
+		}
+	</main>
+</body>

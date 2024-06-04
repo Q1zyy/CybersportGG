@@ -107,5 +107,10 @@ namespace WebApplication1.Services
 			var cur = DateOnly.FromDateTime(DateTime.Now);
 			return await db.Events.Where(e => e.EndDate < cur).ToListAsync();
 		}
+
+		public async Task<IEnumerable<Event>> Search(string s)
+		{
+			return await db.Events.Where(e => e.Name.Contains(s)).Take(5).ToListAsync();
+		}
 	}
 }

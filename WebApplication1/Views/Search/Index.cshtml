@@ -1,0 +1,31 @@
+﻿
+@{
+	Layout = "_Layout";
+}
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<link rel="stylesheet" href="~/css/search.css" />
+<body>
+	<div class="search-container">
+		<input id="searching" type="text" placeholder="Поиск" class="search-input" />
+		<button id="searchButton" class="search-button">Найти</button>
+	</div>
+	<div id="searchPartial"></div>
+</body>
+
+<script>
+	$(document).ready(function () {
+		$('#searchButton').click(function () {
+			var str = $('#searching').val();
+			$.ajax({
+				url: '@Url.Action("Search", "Search")',
+				type: 'GET',
+				data: { str: str },
+				success: function (result) {
+					$('#searchPartial').html(result);
+				}
+			});
+		});
+	});
+</script>

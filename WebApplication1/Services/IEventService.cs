@@ -28,6 +28,8 @@ namespace WebApplication1.Services
 
 		public Task DeleteMatchFromEvent(int id, int matchId);
 
+		public Task<IEnumerable<Event>> Search(string s);
+
 
 	}
 }

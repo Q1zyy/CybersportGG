@@ -50,7 +50,7 @@ namespace WebApplication1.Services
 
         public async Task<IEnumerable<Player>> Search(string s)
 		{
-			return await db.Players.Where(p => p.Nickname.Contains(s)).ToListAsync();
+			return await db.Players.Where(p => p.Nickname.Contains(s)).Take(5).ToListAsync();
 		}
 	}
 }

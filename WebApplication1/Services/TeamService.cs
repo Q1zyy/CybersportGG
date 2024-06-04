@@ -52,7 +52,7 @@ namespace WebApplication1.Services
 
 		public async Task<IEnumerable<Team>> SearchTeams(string s)
 		{
-			return await db.Teams.Where(t => t.Name.Contains(s)).ToListAsync();
+			return await db.Teams.Where(t => t.Name.Contains(s)).Take(5).ToListAsync();
 		}
 
 		public async Task<Team> GetTeamByName(string name)

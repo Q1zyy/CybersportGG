@@ -18,6 +18,7 @@
             <li><a asp-controller="Matches" asp-action="Matches">Матчи</a></li>
             <li><a asp-controller="Results" asp-action="Results">Результаты</a></li>
             <li><a asp-controller="Event" asp-action="Events" >События</a></li>
+            <li><a asp-controller="Search" asp-action="Index" >Поиск</a></li>
             @if (User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault() == "admin")
             {
                 <li><a asp-controller="Admin" asp-action="Index">Админка</a></li>
